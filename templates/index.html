@@ -1,0 +1,341 @@
+{% extends 'layout.html' %} 
+{% block title %}Novels{% endblock %} 
+
+{% block head %}
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="static/assets/css/style.css">
+<link rel="stylesheet" href="static/assets/css/navbar.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+{% endblock %}
+{% block content %} 
+<section class="headaer_1">
+    <div class="container">
+        <div class="row">
+            <div class="search-bar">
+                <input type="text" placeholder="Find Book Search .......">
+                <a href=""> <i class="fa fa-search"></i> </a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header_tex1">
+            <h1>Best Seller</h1>
+            <a href="all-book.html"> See All <i class="fa fa-angle-right"></i> </a>
+        </div>
+        <div class="book_mob">
+
+
+            <div class="book-details">
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-02.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-03.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+
+
+            </div>
+        </div>
+        <div class="book_mob">
+
+            <div class="book-details">
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-04.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-05.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-06.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+
+
+            </div>
+        </div>
+
+
+        <div class="slider" id="slider">
+            <div class="slide" id="slide">
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-02.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-03.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a> <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-04.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-05.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a> <a href="book-detail.html"> <img class="item" src="static/assets/images/kid-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/kid-02.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a> <a href="book-detail.html"> <img class="item" src="static/assets/images/kid-03.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a> <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a> <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+            </div>
+            <button class="ctrl-btn pro-prev">Prev</button>
+            <button class="ctrl-btn pro-next">Next</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header_tex1">
+            <h1>Best Seller</h1>
+            <a href="all-book.html"> See All <i class="fa fa-angle-right"></i> </a>
+        </div>
+
+        <div class="book_mob">
+
+
+            <div class="book-details">
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-02.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-03.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+
+
+            </div>
+        </div>
+        <div class="book_mob">
+
+            <div class="book-details">
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-04.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-05.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-06.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+
+
+            </div>
+        </div>
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-02.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-03.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-04.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-05.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-06.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-01.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-02.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-03.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/men-02.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header_tex1">
+            <h1>Best Seller</h1>
+            <a href="all-book.html"> See All <i class="fa fa-angle-right"></i> </a>
+        </div>
+
+        <div class="book_mob">
+
+
+            <div class="book-details">
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-02.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-03.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+
+
+            </div>
+        </div>
+        <div class="book_mob">
+
+            <div class="book-details">
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-04.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-05.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+                <a href="book-detail.html"> <img class="item" src="static/assets/images/instagram-06.jpg">
+                    <h4>Michelle obama</h4>
+                    <p>Rs-400</p>
+                </a>
+
+
+            </div>
+        </div>
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-02.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-03.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-04.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-05.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-06.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-01.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-02.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-03.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+                <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/men-02.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+</section>
+{% endblock %}
+{% block scripts %}
+
+<script src="static/assets/js/slider.js"></script>
+<script src="static/assets/js/nav.js"></script>
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper('.swiper', {
+        slidesPerView: 5,
+        direction: getDirection(),
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        on: {
+            resize: function () {
+                swiper.changeDirection(getDirection());
+            },
+        },
+    });
+
+    function getDirection() {
+        var windowWidth = window.innerWidth;
+        var direction = window.innerWidth <= 760 ? 'vertical' : 'horizontal';
+
+        return direction;
+    }
+</script>
+<script>
+    /* Code by CodingTuting.Com */
+    function footerToggle(footerBtn) {
+        Rs - (footerBtn).toggleClass("btnActive");
+        Rs - (footerBtn).next().toggleClass("active");
+    }
+</script>
+{% endblock %}

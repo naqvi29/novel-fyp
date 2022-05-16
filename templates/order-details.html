@@ -1,0 +1,107 @@
+{% extends 'layout.html' %} 
+{% block title %}Novels{% endblock %} 
+
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/assets/css/style.css">
+    <link rel="stylesheet" href="static/assets/css/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    {% endblock %}
+    {% block content %} 
+    <section class="headaer_1">
+        <div class="container">
+            <div class="row">
+                <div class="search-bar">
+                    <input type="text" placeholder="Find Book Search .......">
+                    <a href=""> <i class="fa fa-search"></i> </a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="table">
+                <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Payment type</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Email address</th>
+                        <th scope="col">Customer name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Order ID</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td data-label="Account">Cash</td>
+                        <td data-label="Due Date">04/01/2016</td>
+                        <td data-label="Amount">Delivered</td>
+                        <td data-label="Period">saad@gmail.com</td>
+                        <td data-label="Period">saad</td>
+                        <td data-label="Period"> street 21,khi </td>
+                        <td data-label="Period">1135</td>
+
+                      </tr>
+                      <tr>
+                        <td scope="row" data-label="Account">Cash</td>
+                        <td data-label="Due Date">03/01/2016</td>
+                        <td data-label="Amount">Delivered</td>
+                        <td data-label="Period">saad@gmail.com</td>
+                        <td data-label="Period">saad</td>
+                        <td data-label="Period">street 21,khi</td>
+                        <td data-label="Period">1135</td>
+
+
+                      </tr>
+                      <tr>
+                        <td scope="row" data-label="Account">Cash</td>
+                        <td data-label="Due Date">03/01/2016</td>
+                        <td data-label="Amount">Delivered</td>
+                        <td data-label="Period">saad@gmail.com</td>
+                        <td data-label="Period">saad</td>
+                        <td data-label="Period">street 21,khi</td>
+                        <td data-label="Period">1135</td>
+
+                      </tr>
+                      <tr>
+                        <td scope="row" data-label="Acount">Cash</td>
+                        <td data-label="Due Date">02/01/2016</td>
+                        <td data-label="Amount">Delivered</td>
+                        <td data-label="Period">saad@gmail.com</td>
+                        <td data-label="Period">saad</td>
+                        <td data-label="Period">street 21,khi</td>
+                        <td data-label="Period">1135</td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    
+
+    </section>
+    {% endblock %}
+    {% block scripts %}
+    <script src="static/assets/js/slider.js"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+   
+    <script>
+        /* Code by CodingTuting.Com */
+        function footerToggle(footerBtn) {
+            Rs-(footerBtn).toggleClass("btnActive");
+            Rs-(footerBtn).next().toggleClass("active");
+        }
+    </script>
+    {% endblock %}
