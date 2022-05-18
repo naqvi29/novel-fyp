@@ -1,6 +1,10 @@
 
 from flask import Flask, render_template,request, url_for, redirect,session
 from flaskext.mysql import MySQL
+import os
+from os.path import join, dirname, realpath
+from werkzeug.utils import secure_filename
+from PIL import Image
 
 app = Flask(__name__)
 mysql = MySQL()
@@ -12,6 +16,14 @@ mysql.init_app(app)
 
 # configure secret key for session protection)
 app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
+
+BOOK_IMAGES = join(dirname(realpath(__file__)), 'static/assets/book-images')
+
+ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg',}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/test-db")
 def test_db():
@@ -33,7 +45,7 @@ def index():
     comics = cursor.fetchall()
     # return str(books)
     if 'loggedin' in session: 
-        return render_template("index.html",fiction=fiction,science=science,comics=comics,loggedin=True,username=session['name'])
+        return render_template("index.html",fiction=fiction,science=science,comics=comics,loggedin=True,username=session['name'],type=session['type'])
     else:
         return render_template("index.html",fiction=fiction,science=science,comics=comics,loggedin=False)
 
@@ -47,7 +59,10 @@ def books_by_category(category):
     cursor =conn.cursor()
     cursor.execute("SELECT * from books where category=%s",category)
     books = cursor.fetchall()
-    return render_template("books-by-category.html",books=books,category=category)
+    if 'loggedin' in session: 
+        return render_template("books-by-category.html",books=books,category=category,loggedin=True,username=session['name'],type=session['type'])
+    else:
+        return render_template("books-by-category.html",books=books,category=category,loggedin=False)
 
 @app.route("/search/<string:q>")
 def search(q):
@@ -64,8 +79,10 @@ def search(q):
     if not books:
         cursor.execute("SELECT * FROM books WHERE publisher Like '%{text:}%';".format(text=q))
         books = cursor.fetchall()
-
-    return render_template("search-results.html",books=books,q=q)
+    if 'loggedin' in session: 
+        return render_template("search-results.html",books=books,q=q,loggedin=True,username=session['name'],type=session['type'])
+    else:
+        return render_template("search-results.html",books=books,q=q,loggedin=False)
 
 
 
@@ -76,7 +93,7 @@ def all_books():
     cursor.execute("SELECT * from books")
     books = cursor.fetchall()
     if 'loggedin' in session:    
-        return render_template("all-books.html",books=books,loggedin=True)
+        return render_template("all-books.html",books=books,loggedin=True,username=session['name'],type=session['type'])
     else:
         return render_template("all-books.html",books=books,loggedin=False)
 
@@ -86,11 +103,77 @@ def book_detail(id):
     cursor =conn.cursor()
     cursor.execute("SELECT * from books where id=%s",id)
     book = cursor.fetchone()
-    return render_template("book-detail.html",book=book)
+    if 'loggedin' in session: 
+        return render_template("book-detail.html",book=book,loggedin=True,username=session['name'],type=session['type'])
+    else:
+        return render_template("book-detail.html",book=book,loggedin=False)
 
-@app.route("/details")
-def details():
-    return render_template("details.html")
+@app.route("/my-books")
+def my_books():
+    if 'loggedin' in session: 
+        if session['type'] == 'shopkeeper':            
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("SELECT * from books where publisher_id=%s",(session['userid']))
+            books = cursor.fetchall()
+            return render_template("my-books.html",loggedin=True,books=books,username=session['name'],type=session['type'])
+        else:
+            return "ShopKeeper Account Not Found!"
+    else:
+        return "Please Login First as a shop keeper!"
+
+@app.route("/delete-book/<int:id>")
+def delete_book(id):
+    if 'loggedin' in session: 
+        if session['type'] == 'shopkeeper':            
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("DELETE  from books where id=%s",(id))
+            conn.commit()
+            return redirect(url_for("my_books"))
+        else:
+            return "ShopKeeper Account Not Found!"
+    else:
+        return "Please Login First as a shop keeper!"
+
+
+@app.route("/add-book", methods=['GET','POST'])
+def add_book():
+    if 'loggedin' in session: 
+        if session['type'] == 'shopkeeper':
+            if request.method == 'POST':
+                title = request.form.get("title")
+                author = request.form.get("author")
+                description = request.form.get("description")
+                category = request.form.get("category")
+                price = float(request.form.get("price"))
+                quantity = request.form.get("quantity")
+                publisher = session['name']
+                publisher_id =session['userid']
+                image = request.files["image"]
+                rating = None
+                if image and allowed_file(image.filename):
+                    filename = secure_filename(image.filename)
+                    image.save(
+                        os.path.join(BOOK_IMAGES, filename))
+                    # compress image
+                    newimage = Image.open(os.path.join(BOOK_IMAGES, str(filename)))
+                    newimage.thumbnail((400, 400))
+                    newimage.save(os.path.join(BOOK_IMAGES, str(filename)), quality=95)
+                    conn = mysql.connect()
+                    cursor =conn.cursor()
+                    cursor.execute("INSERT INTO books (title, author, publisher,publisher_id,category,price,quantity,image,description,rating) VALUES (%s, %s,%s, %s,%s, %s,%s, %s, %s, %s);",(title,author,publisher,publisher_id,category,price,quantity,filename,description,rating))
+                    conn.commit()
+                    return redirect(url_for('index'))
+                else:
+                    return "File not found or incorrect format"
+                
+            else:
+                return render_template("add-book.html",loggedin=True,username=session['name'],type=session['type'])
+        else:
+            return "ShopKeeper Account Not Found!"
+    else:
+        return "Please Login First as a shop keeper!"
 
 @app.route("/login", methods=['GET','POST'])
 def login():
@@ -109,6 +192,7 @@ def login():
             session['loggedin'] = True
             session['userid'] = account[0]
             session['name'] = account[3]+ " " + account[4]
+            session['type'] = account[7]
             return redirect(url_for("index"))
         else:
             return "Invalid Password!"

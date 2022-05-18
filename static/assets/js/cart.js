@@ -3010,6 +3010,7 @@ var cart = new CartModule({
 
            $('.add-to-cart').click(function() {
                cart.addToCart($(this).prev().data());
+            //    console.log($(this).prev().data())
            });
            
            $('.add-to-wish').click(function() {

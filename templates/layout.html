@@ -71,6 +71,13 @@
                         </div>
                     </li>
                     {% if loggedin %}
+                    {% if type=='shopkeeper' %}
+                    <li><a href="/add-book">Add Book</a></li>
+                    <li><a href="/my-books">My Books</a></li>
+                    {% endif %}
+                    {% endif %}
+
+                    {% if loggedin %}
                     <li><a class="btn" href="#">{{username}}</a></li>                    
                     <li><a class="btn" href="/logout">Logout</a></li>
                     {% else %} 

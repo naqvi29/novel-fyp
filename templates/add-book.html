@@ -23,45 +23,45 @@
             </div>
             <div class="row clearfix">
                 <div class="">
-                    <form>
+                    <form action="add-book" method="post" enctype="multipart/form-data">
                         <div class="input_field">
                             <input type="text" name="title" placeholder="Book title" required />
                         </div>
-                        <div class="input_field">
+                        <!-- <div class="input_field">
                             <input type="text" name="name" placeholder="Book Name" required />
-                        </div>
-                        <div class="input_field">
-                            <input type="text" name="name" placeholder="Publisher" required />
-                        </div>
-                        <div class="input_field">
-                            <input type="text" name="name" placeholder="Author " required />
-                        </div>
-                        <div class="input_field">
-                            <input type="text" name="name" placeholder="Category " required />
-                        </div>
-                        <div class="input_field">
-                            <input type="text" name="name" placeholder="0660115530 " required />
-                        </div>
-                        <div class="input_field">
-                            <input type="text" name="name" placeholder="price " required />
-                            
-                        </div>
-                        <!-- <div class="col_half">
-                            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-barcode"></i></span>
-                                <input type="text" name="name" placeholder=" 0660115530 " required />
-                            </div>
-                        </div>
-                        <div class="col_half">
-                            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-dollar"></i></span>
-                                <input type="number" name="name" placeholder="Price" required />
-                            </div>
                         </div> -->
                         <div class="input_field">
-                            <input type="number" value="1" name="name" placeholder="Category " required />
+                            <textarea type="text" name="description" placeholder="Description" required ></textarea>
+                        </div>
+                        <div class="input_field">
+                            <input type="text" name="author" placeholder="Author " required />
+                        </div>
+                        <div class="input_field">
+                            <!-- <input type="text" name="category" placeholder="Category " required /> -->
+                            <select name="category">
+                                <option value="" disabled selected>Category</option>
+                                <option value="fiction">Fiction</option>
+                                <option value="science">Science</option>
+                                <option value="comics">Comics</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="math">Math</option>
+                                <option value="urdu">Urdu</option>
+                                <option value="islamic">Islamic</option>
+                                <option value="tourism">Tourism</option>
+                                <option value="programming">Programming</option>
+                                <option value="graphic-design">Graphic Design</option>
+                            </select>
+                        </div>
+                        <div class="input_field">
+                            <input type="number" step="any" min="1" name="price" placeholder="0660115530 " required />
+                            Price
+                        </div>
+                        <div class="input_field">
+                            <input type="number" value="1" name="quantity" placeholder="Quantity " required />
                             Quantity
                         </div>
                         <div class="input_field">
-                            Upload Image <input type="file" name="name" placeholder="Images " required />
+                            Upload Image <input type="file" name="image" placeholder="Images " required />
                         </div>
 
 
