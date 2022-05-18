@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/assets/css/style.css">
-    <link rel="stylesheet" href="static/assets/css/navbar.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/navbar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="static/assets/css/product.css">
+    <link rel="stylesheet" href="/static/assets/css/product.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
@@ -34,51 +34,51 @@
         </div>
         <div class="container">
             <div class="header_tex1">
-                <h1>All Books</h1>
+                <h1>{{category[0]|upper}}{{category[1:]}}</h1>
                 <!-- <a href=""> See All <i class="fa fa-angle-right"></i> </a> -->
             </div>
             <!-- <div class="slider" id="slider">
                 <div class="slide" id="slide">
-                    <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
                         <h4>Michelle obama</h4>
                         <p>Rs-400</p>
                     </a>
-                    <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
                         <h4>Michelle obama</h4>
                         <p>Rs-400</p>
                     </a>
-                    <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
                         <h4>Michelle obama</h4>
                         <p>Rs-400</p>
-                    </a> <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
-                        <h4>Michelle obama</h4>
-                        <p>Rs-400</p>
-                    </a>
-                    <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
-                        <h4>Michelle obama</h4>
-                        <p>Rs-400</p>
-                    </a> <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    </a> <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
                         <h4>Michelle obama</h4>
                         <p>Rs-400</p>
                     </a>
-                    <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
                         <h4>Michelle obama</h4>
                         <p>Rs-400</p>
-                    </a> <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
-                        <h4>Michelle obama</h4>
-                        <p>Rs-400</p>
-                    </a>
-                    <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
-                        <h4>Michelle obama</h4>
-                        <p>Rs-400</p>
-                    </a> <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    </a> <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
                         <h4>Michelle obama</h4>
                         <p>Rs-400</p>
                     </a>
-                    <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
                         <h4>Michelle obama</h4>
                         <p>Rs-400</p>
-                    </a> <a href=""> <img class="item" src="static/assets/images/instagram-01.jpg">
+                    </a> <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a>
+                    <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a> <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a>
+                    <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
+                        <h4>Michelle obama</h4>
+                        <p>Rs-400</p>
+                    </a> <a href=""> <img class="item" src="/static/assets/images/instagram-01.jpg">
                         <h4>Michelle obama</h4>
                         <p>Rs-400</p>
                     </a>
@@ -100,20 +100,15 @@
             {% for i in books %}
             <div class="cont">
                 <div class="product" data-id="id02" data-price="{{i[5]}}" data-title="{{i[1]}}"
-                    data-img="static/assets/book-images/{{i['7']}}"
+                    data-img="/static/assets/book-images/{{i['7']}}"
                     data-url="https://www.momastore.org/museum/moma/ProductDisplay_Stockwell%20Travel%20Speaker_10451_10001_223993_-1_26707_26707_224026"
-                    style="background: url(static/assets/book-images/{{i[7]}});background-size: cover;">
+                    style="background: url(/static/assets/book-images/{{i[7]}});background-size: cover;">
                 </div>
 
                 <h4>{{i[1]}}</h4>
                 <p>Rs-{{i[5]}}</p>
-                {% if loggedin %}
                 <span class="add-to-cart"><i class="fa fa-bag-shopping"></i></span>
                 <span class="add-to-wish"><i class="fa fa-heart"></i></span>
-                {% else %} 
-                <span onclick="loginE()" class="add-to-cart"><i class="fa fa-bag-shopping"></i></span>
-                <span onclick="loginE()" class="add-to-wish"><i class="fa fa-heart"></i></span>
-                {% endif %}
             </div>
             {% endfor %}
         </div>
@@ -124,39 +119,39 @@
             </div>
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-02.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/instagram-02.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-03.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/instagram-03.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-04.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/instagram-04.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-05.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/instagram-05.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/instagram-06.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/instagram-06.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-01.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/kid-01.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-02.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/kid-02.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/kid-03.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/kid-03.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
-                    <div class="swiper-slide"><a href=""> <img class="item" src="static/assets/images/men-02.jpg">
+                    <div class="swiper-slide"><a href=""> <img class="item" src="/static/assets/images/men-02.jpg">
                             <h4>Michelle obama</h4>
                             <p>Rs-400</p>
                         </a></div>
@@ -190,7 +185,7 @@
     </section>
     {% endblock %}
     {% block scripts %}
-    <script src="static/assets/js/slider.js"></script>
+    <script src="/static/assets/js/slider.js"></script>
 
     <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
@@ -226,11 +221,5 @@
         }
     </script>
 
-    <script src="static/assets/js/cart.js"></script>
-    <script>
-        function loginE(){
-            console.log("gg");
-            alert("Login First!");
-        }
-    </script>
+    <script src="/static/assets/js/cart.js"></script>
     {% endblock %}

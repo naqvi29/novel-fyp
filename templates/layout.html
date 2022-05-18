@@ -47,31 +47,36 @@
                 </div>
                 <ul class="menu-items">
                     <li><a href="/" class="active">Home</a></li>
-                    <li><a href="#">About</a></li>
+                    <!-- <li><a href="#">About</a></li>
 
                     <li><a href="#">Vision</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Contact Us</a></li> -->
 
                     <li class="dropdown">
                         <a class="dropbtn">Category <i class="fa fa-caret-down"></i></a>
                         <div class="dropdown-content">
-                            <a href="#">Fiction </a>
-                            <a href="#">Science</a>
-                            <a href="#">Comics</a>
-                            <a href="#">Adventure</a>
-                            <a href="#">Math</a>
-                            <a href="#">Urdu</a>
-                            <a href="#">Islamic
+                            <a href="/books-by-category/fiction">Fiction </a>
+                            <a href="/books-by-category/science">Science</a>
+                            <a href="/books-by-category/comics">Comics</a>
+                            <a href="/books-by-category/adventure">Adventure</a>
+                            <a href="/books-by-category/math">Math</a>
+                            <a href="/books-by-category/urdu">Urdu</a>
+                            <a href="/books-by-category/islamic">Islamic
                             </a>
-                            <a href="#">Tourism</a>
-                            <a href="#">Programming</a>
-                            <a href="#">Graphic design
+                            <a href="/books-by-category/tourism">Tourism</a>
+                            <a href="/books-by-category/programming">Programming</a>
+                            <a href="/books-by-category/graphic-design">Graphic design
                             </a>
 
                         </div>
                     </li>
+                    {% if loggedin %}
+                    <li><a class="btn" href="#">{{username}}</a></li>                    
+                    <li><a class="btn" href="/logout">Logout</a></li>
+                    {% else %} 
                     <li><a class="btn" href="/login">Sign In</a></li>
                     <li><a class="btn" href="/register">Registration</a></li>
+                    {% endif %}
 
 
                 </ul>

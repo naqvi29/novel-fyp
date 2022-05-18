@@ -23,19 +23,70 @@ def test_db():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    conn = mysql.connect()
+    cursor =conn.cursor()
+    cursor.execute("SELECT * from books where category='fiction'")
+    fiction = cursor.fetchall()
+    cursor.execute("SELECT * from books where category='science'")
+    science = cursor.fetchall()
+    cursor.execute("SELECT * from books where category='comics'")
+    comics = cursor.fetchall()
+    # return str(books)
+    if 'loggedin' in session: 
+        return render_template("index.html",fiction=fiction,science=science,comics=comics,loggedin=True,username=session['name'])
+    else:
+        return render_template("index.html",fiction=fiction,science=science,comics=comics,loggedin=False)
 
 @app.route("/order-details")
 def order_details():
     return render_template("order-details.html")
 
+@app.route("/books-by-category/<string:category>")
+def books_by_category(category):
+    conn = mysql.connect()
+    cursor =conn.cursor()
+    cursor.execute("SELECT * from books where category=%s",category)
+    books = cursor.fetchall()
+    return render_template("books-by-category.html",books=books,category=category)
+
+@app.route("/search/<string:q>")
+def search(q):
+    conn = mysql.connect()
+    cursor =conn.cursor()
+    cursor.execute("SELECT * FROM books WHERE title Like '%{text:}%';".format(text=q))
+    books = cursor.fetchall()
+    if not books:
+        cursor.execute("SELECT * FROM books WHERE category Like '%{text:}%';".format(text=q))
+        books = cursor.fetchall()
+    if not books:
+        cursor.execute("SELECT * FROM books WHERE author Like '%{text:}%';".format(text=q))
+        books = cursor.fetchall()
+    if not books:
+        cursor.execute("SELECT * FROM books WHERE publisher Like '%{text:}%';".format(text=q))
+        books = cursor.fetchall()
+
+    return render_template("search-results.html",books=books,q=q)
+
+
+
 @app.route("/all-books")
 def all_books():
-    return render_template("all-books.html")
+    conn = mysql.connect()
+    cursor =conn.cursor()
+    cursor.execute("SELECT * from books")
+    books = cursor.fetchall()
+    if 'loggedin' in session:    
+        return render_template("all-books.html",books=books,loggedin=True)
+    else:
+        return render_template("all-books.html",books=books,loggedin=False)
 
-@app.route("/book-detail")
-def book_detail():
-    return render_template("book-detail.html")
+@app.route("/book-detail/<int:id>")
+def book_detail(id):
+    conn = mysql.connect()
+    cursor =conn.cursor()
+    cursor.execute("SELECT * from books where id=%s",id)
+    book = cursor.fetchone()
+    return render_template("book-detail.html",book=book)
 
 @app.route("/details")
 def details():

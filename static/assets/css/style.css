@@ -586,6 +586,20 @@ footer {
   .ctrl-btn.pro-next {
     right: 0;
   }
+  .ctrl-btn.pro-prev2 {
+    left: 0;
+  }
+  
+  .ctrl-btn.pro-next2 {
+    right: 0;
+  }
+  .ctrl-btn.pro-prev3 {
+    left: 0;
+  }
+  
+  .ctrl-btn.pro-next3 {
+    right: 0;
+  }
   
   .slide img{
       height: 350px;
