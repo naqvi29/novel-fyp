@@ -12,6 +12,7 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'novel-fyp'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_PORT'] = 3307
 mysql.init_app(app)
 
 # configure secret key for session protection)
@@ -125,16 +126,19 @@ def my_books():
 @app.route("/delete-book/<int:id>")
 def delete_book(id):
     if 'loggedin' in session: 
-        if session['type'] == 'shopkeeper':            
+        if session['type'] == 'shopkeeper' or session['type'] == 'admin':            
             conn = mysql.connect()
             cursor =conn.cursor()
             cursor.execute("DELETE  from books where id=%s",(id))
             conn.commit()
-            return redirect(url_for("my_books"))
+            if session['type'] == 'shopkeeper':
+                return redirect(url_for("my_books"))
+            elif session['type'] == 'admin':
+                return redirect(url_for("books"))
         else:
-            return "ShopKeeper Account Not Found!"
+            return "ShopKeeper or Admin Account Not Found!"
     else:
-        return "Please Login First as a shop keeper!"
+        return "Please Login First as a shop keeper or Admin!"
 
 
 @app.route("/add-book", methods=['GET','POST'])
@@ -231,6 +235,53 @@ def register():
         conn.commit()
         return redirect(url_for("login"))
     return render_template("register.html")
+
+@app.route("/checkout/<string:total_price>,")
+
+
+#ADMIN DASHBOARD
+@app.route("/admin-dashboard")
+def admin_dashboard():        
+    if 'loggedin' in session: 
+        if session['type'] == 'admin':    
+            return render_template("admin-dashboard.html")
+        else:
+            session.pop('loggedin', None)
+            session.pop('userid', None)
+            session.pop('name', None)
+            return redirect(url_for("login"))
+    else:
+            return redirect(url_for("login"))
+
+@app.route("/users")
+def users():        
+    if 'loggedin' in session: 
+        if session['type'] == 'admin':    
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("SELECT * from users")
+            users = cursor.fetchall()
+            return render_template("users.html",loggedin=True,users=users,username=session['name'],type=session['type'])
+        else:
+            return "Admin Account Not Found!"
+    else:
+        return "Please Login First as a admin!"
+
+@app.route("/books")
+def books():        
+    if 'loggedin' in session: 
+        if session['type'] == 'admin':    
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("SELECT * from books")
+            books = cursor.fetchall()
+            return render_template("books.html",loggedin=True,books=books,username=session['name'],type=session['type'])
+        else:
+            return "Admin Account Not Found!"
+    else:
+        return "Please Login First as a admin!"
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

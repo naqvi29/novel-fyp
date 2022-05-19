@@ -1,0 +1,51 @@
+{% extends 'admin-layout.html' %} 
+{% block title %}BOOKS | ADMIN DASHBOARD{% endblock %}
+{% block heading %}BOOKS | ADMIN DASHBOARD{% endblock %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card strpied-tabled-with-hover">
+                <div class="card-header ">
+                    <!-- <h4 class="card-title">Striped Table with Hover</h4> -->
+                    <p class="card-category">Here is a list of all Books</p>
+                </div>
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Publisher</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Rating</th>
+                            <th>Image</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </thead>
+                        <tbody>
+                            {% for i in books %}
+                            <tr>
+                                <td>{{i[0]}}</td>
+                                <td>{{i[1][:25]}}</td>
+                                <td>{{i[2]}}</td>
+                                <td>{{i[3]}}</td>
+                                <td>{{i[4]}}</td>
+                                <td>{{i[5]}}</td>
+                                <td>{{i[6]}}</td>
+                                <td>{{i[9]}}</td>
+                                <td><a href="/static/assets/book-images/{{i[7]}}" target="blank"><button class="btn btn-sm btn-success">View</button></a></td>
+                                <td><a href="/edit-book/{{i[0]}}"><button class="btn btn-sm btn-secondary">Edit</button></a></td>
+                                <td><a onclick="return confirm('Are you sure you want to delete this user?');" href="/delete-book/{{i[0]}}"><button class="btn btn-sm btn-danger">Delete</button></a></td>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

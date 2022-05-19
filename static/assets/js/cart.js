@@ -3006,7 +3006,7 @@ var cart = new CartModule({
                ismultiple: false 
            });
 
-           //console.log(cart);
+           console.log(cart);
 
            $('.add-to-cart').click(function() {
                cart.addToCart($(this).prev().data());
