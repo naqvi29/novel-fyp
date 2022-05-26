@@ -26,32 +26,12 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <link rel="stylesheet" href="/static/assets/css/rateModal.css">
     <link rel="stylesheet" href="/static/assets/css/rate.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bullframe.css">
     <style>
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-          font-size: 0.8rem;
-          margin-bottom: 1rem;
-        }
-        
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-        }
-        
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
-        .table-btn{
-            background-color: black;
-            color: white;
-            border-radius: 20%;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-        </style>
+      a:not([href]):not([tabindex]) {
+        color: white;
+      }
+    </style>
     {% endblock %}
     {% block content %} 
     <!-- Rate Modal start  -->
@@ -82,14 +62,14 @@
             <div class="header_tex1">
                 <h1>Orders Pending!</h1>
             </div>
-            <div class="container">
-                <table>
+            <div class="bf-table-responsive bf-table-responsive--zebra">
+                <table class="bf-table">
                     <tr>
                       <th>OrderID</th>
                       <th>BookID</th>
                       <th>Price</th>
                       <th>City</th>
-                      <th>Delivery_Address</th>
+                      <th>Delivery Address</th>
                       <th>Status</th>
                       <th>Cancel</th>
                     </tr>
@@ -109,14 +89,14 @@
             <div class="header_tex1">
                 <h1>Orders Delivered!</h1>
             </div>
-            <div class="container">
-                <table>
+            <div class="bf-table-responsive bf-table-responsive--zebra">
+                <table class="bf-table">
                     <tr>
                       <th>OrderID</th>
                       <th>BookID</th>
                       <th>Price</th>
                       <th>City</th>
-                      <th>Delivery_Address</th>
+                      <th>Delivery Address</th>
                       <th>Status</th>
                       <th>Rate</th>
                     </tr>

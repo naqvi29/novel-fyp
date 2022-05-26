@@ -11,29 +11,6 @@
 
 <body>
     <section class="header_nav">
-        <!-- <div class="container-fluid">
-            <div class="row"> -->
-        <!-- <div class="nav">
-                    <input type="checkbox" id="nav-check">
-                    <div class="nav-header">
-                        <a href="index.html" class="logo">
-                            <img src="static/assets/images/white-logo.png" alt="">
-                        </a>
-                    </div>
-                    <div class="nav-btn">
-                        <label for="nav-check">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </label>
-                    </div>
-
-                    <div class="nav-links">
-
-                        <a href="login.html" target="_blank">SIGN IN</a>
-                        <a href="register.html" target="_blank">REGISTRATION</a>
-                    </div>
-                </div> -->
         <nav class="navbar">
             <div class="navbar-container container">
                 <input type="checkbox" name="" id="">
@@ -49,6 +26,10 @@
                 </div>
                 <ul class="menu-items">
                     <li><a class="btn" href="/" class="active">Home</a></li>
+                    <li><a class="btn" href="#">About</a></li>
+
+                    <li><a class="btn" href="#">Vision</a></li>
+                    <li><a class="btn" href="#">Contact Us</a></li>
                     <!-- <li><a href="#">About</a></li>
 
                     <li><a href="#">Vision</a></li>
@@ -86,10 +67,10 @@
                     {% endif %}
 
                     {% if loggedin %}               
-                    <li><a class="btn" href="#">{{username}}</a></li>                    
+                    <li style="margin-left:2rem;"><a class="btn" href="#">{{username}}</a></li>                                        
                     <li><a class="btn" href="/logout">Logout</a></li>
                     {% else %} 
-                    <li><a class="btn" href="/login">Sign In</a></li>
+                    <li style="margin-left:2rem;"><a class="btn" href="/login">Sign In</a></li>
                     <li><a class="btn" href="/register">Registration</a></li>
                     {% endif %}
 

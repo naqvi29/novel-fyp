@@ -37,7 +37,7 @@
         {% for i in fiction %}
         <a href="/book-detail/{{i[0]}}">
           <img class="item" src="static/assets/book-images/{{i[7]}}" />
-          <h4>{{i[1]}}</h4>
+          <h4>{{i[1][:20]}}</h4>
           <p>Rs-{{i[5]}}</p>
         </a>
         {% endfor %}
@@ -53,8 +53,8 @@
             <div class="container-fluid">
                 <div class="row">
         {% for i in fiction %}
-                    <div class="col-sm-4"><a href=""> <img class="item" src="static/assets/book-images/{{i[7]}}">
-                        <h4>{{i[1]}}</h4>
+                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                        <h4>{{i[1][:20]}}</h4>
                         <p>Rs-{{i[5]}}</p>
                     </a></div>
         {% endfor %}
@@ -76,7 +76,7 @@
         {% for i in science %}
         <a href="/book-detail/{{i[0]}}">
           <img class="item" src="static/assets/book-images/{{i[7]}}" />
-          <h4>{{i[1]}}</h4>
+          <h4>{{i[1][:20]}}</h4>
           <p>Rs-{{i[5]}}</p>
         </a>
         {% endfor %}
@@ -90,7 +90,7 @@
             <div class="container-fluid">
                 <div class="row">
                 {% for i in science %}
-                    <div class="col-sm-4"><a href=""> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="static/assets/book-images/{{i[7]}}">
                         <h4>{{i[1]}}</h4>
                         <p>Rs-{{i[5]}}</p>
                     </a></div>
@@ -126,7 +126,7 @@
             <div class="container-fluid">
                 <div class="row">
                   {% for i in comics %}
-                    <div class="col-sm-4"><a href=""> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="static/assets/book-images/{{i[7]}}">
                         <h4>{{i[1]}}</h4>
                         <p>Rs-{{i[5]}}</p>
                     </a></div>

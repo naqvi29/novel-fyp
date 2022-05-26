@@ -10,9 +10,13 @@ from PIL import Image
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'LAwrence1234**'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'novel-fyp'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
+# app.config['MYSQL_DATABASE_USER'] = 'root'
+# app.config['MYSQL_DATABASE_PASSWORD'] = 'LAwrence1234**'
+# app.config['MYSQL_DATABASE_DB'] = 'novel-fyp'
+# app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 mysql.init_app(app)
 
 # configure secret key for session protection)
@@ -309,7 +313,7 @@ def view_shopkeepers_orders(userid):
         pending_orders = cursor.fetchall()
         cursor.execute("SELECT * from orders where publisher_id=%s and status='delivered'",(userid))
         delivered_orders = cursor.fetchall()
-        return render_template("view-shopkeeper-orders.html",pending_orders=pending_orders,delivered_orders=delivered_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+        return render_template("view-shopkeeper-orders copy.html",pending_orders=pending_orders,delivered_orders=delivered_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
     else:
         return "Please Login First!"
 

@@ -108,7 +108,7 @@
                     style="background: url(static/assets/book-images/{{i[7]}});background-size: cover;">
                 </div></a>
 
-                <a style="text-decoration: none;" href="/book-detail/{{i[0]}}"><h4>{{i[1]}}</h4></a>
+                <a style="text-decoration: none;" href="/book-detail/{{i[0]}}"><h4>{{i[1][:20]}}</h4></a>
                 <p>Rs-{{i[5]}}</p>
                 <input hidden type="number" step="any"  id="price-{{i[0]}}" value="{{i[5]}}">
                 {% if loggedin %}
@@ -178,7 +178,7 @@
 
 
             <!--Bordered Pagination-->
-            <div class="b-pagination-outer">
+            <!-- <div class="b-pagination-outer">
 
                 <ul id="border-pagination">
                     <li><a class="" href="#">«</a></li>
@@ -191,7 +191,7 @@
                     <li><a href="#">7</a></li>
                     <li><a href="#">»</a></li>
                 </ul>
-            </div>
+            </div> -->
 
         </div>
         <!--wrapper-->
