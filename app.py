@@ -3,16 +3,16 @@ from flask import Flask, render_template,request, url_for, redirect,session
 from flaskext.mysql import MySQL
 import os
 from os.path import join, dirname, realpath
+from importlib_metadata import method_cache
 from werkzeug.utils import secure_filename
 from PIL import Image
 
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_PASSWORD'] = 'LAwrence1234**'
 app.config['MYSQL_DATABASE_DB'] = 'novel-fyp'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PORT'] = 3306
+app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 mysql.init_app(app)
 
 # configure secret key for session protection)
@@ -46,7 +46,7 @@ def index():
     comics = cursor.fetchall()
     # return str(books)
     if 'loggedin' in session: 
-        return render_template("index.html",fiction=fiction,science=science,comics=comics,loggedin=True,username=session['name'],type=session['type'])
+        return render_template("index.html",fiction=fiction,science=science,comics=comics,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
     else:
         return render_template("index.html",fiction=fiction,science=science,comics=comics,loggedin=False)
 
@@ -61,7 +61,7 @@ def books_by_category(category):
     cursor.execute("SELECT * from books where category=%s",category)
     books = cursor.fetchall()
     if 'loggedin' in session: 
-        return render_template("books-by-category.html",books=books,category=category,loggedin=True,username=session['name'],type=session['type'])
+        return render_template("books-by-category.html",books=books,category=category,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
     else:
         return render_template("books-by-category.html",books=books,category=category,loggedin=False)
 
@@ -81,7 +81,7 @@ def search(q):
         cursor.execute("SELECT * FROM books WHERE publisher Like '%{text:}%';".format(text=q))
         books = cursor.fetchall()
     if 'loggedin' in session: 
-        return render_template("search-results.html",books=books,q=q,loggedin=True,username=session['name'],type=session['type'])
+        return render_template("search-results.html",books=books,q=q,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
     else:
         return render_template("search-results.html",books=books,q=q,loggedin=False)
 
@@ -94,7 +94,7 @@ def all_books():
     cursor.execute("SELECT * from books")
     books = cursor.fetchall()
     if 'loggedin' in session:    
-        return render_template("all-books.html",books=books,loggedin=True,username=session['name'],type=session['type'])
+        return render_template("all-books.html",books=books,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
     else:
         return render_template("all-books.html",books=books,loggedin=False)
 
@@ -105,7 +105,7 @@ def book_detail(id):
     cursor.execute("SELECT * from books where id=%s",id)
     book = cursor.fetchone()
     if 'loggedin' in session: 
-        return render_template("book-detail.html",book=book,loggedin=True,username=session['name'],type=session['type'])
+        return render_template("book-detail.html",book=book,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
     else:
         return render_template("book-detail.html",book=book,loggedin=False)
 
@@ -117,7 +117,7 @@ def my_books():
             cursor =conn.cursor()
             cursor.execute("SELECT * from books where publisher_id=%s",(session['userid']))
             books = cursor.fetchall()
-            return render_template("my-books.html",loggedin=True,books=books,username=session['name'],type=session['type'])
+            return render_template("my-books.html",loggedin=True,books=books,username=session['name'],userid=session['userid'],type=session['type'])
         else:
             return "ShopKeeper Account Not Found!"
     else:
@@ -139,7 +139,6 @@ def delete_book(id):
             return "ShopKeeper or Admin Account Not Found!"
     else:
         return "Please Login First as a shop keeper or Admin!"
-
 
 @app.route("/add-book", methods=['GET','POST'])
 def add_book():
@@ -173,7 +172,7 @@ def add_book():
                     return "File not found or incorrect format"
                 
             else:
-                return render_template("add-book.html",loggedin=True,username=session['name'],type=session['type'])
+                return render_template("add-book.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
         else:
             return "ShopKeeper Account Not Found!"
     else:
@@ -185,21 +184,24 @@ def login():
         email = request.form.get("email")
         password  = request.form.get("password")
         if not email or not password:
-            return "Oops! Something is missing"
+            return render_template("login.html",error="Oops! Something is missing")
         conn = mysql.connect()
         cursor =conn.cursor()
         cursor.execute("SELECT * from users where email=%s",(email))
         account = cursor.fetchone()
         if not account:
-            return "Invalid Email Address!"
+            return render_template("login.html",error="Invalid Email Address!")
         if password == account[2]:
             session['loggedin'] = True
             session['userid'] = account[0]
             session['name'] = account[3]+ " " + account[4]
             session['type'] = account[7]
-            return redirect(url_for("index"))
+            if session['type'] == "admin":
+                return redirect(url_for("admin_dashboard"))
+            else:
+                return redirect(url_for("index"))
         else:
-            return "Invalid Password!"
+            return render_template("login.html",error="Invalid Password!")
         
     return render_template("login.html")
 
@@ -220,23 +222,145 @@ def register():
         first_name = request.form.get("first_name")
         last_name = request.form.get("last_name")
         country = request.form.get("country")
+        city = request.form.get("city")
+        address = request.form.get("address")
+        type = request.form.get("type")
+        print(type)
         gender = request.form.get("radiogroup1")
-        if not email or not password or not conf_password or not first_name or not last_name or not country or not gender:
-            return "Oops! Something is missing"
+        if not email or not password or not conf_password or not first_name or not last_name or not country or not gender or not type:
+            return render_template("register.html",error="Oops! Something is missing")
+        if type == 'user' and not address:
+            return render_template("register.html",error="Address not found!")
         if password != conf_password:
-            return "Password doesn't match!"
+            return render_template("register.html",error="Password doesn't match!")
+        if type != "user" and type != "shopkeeper":
+            return render_template("register.html",error="Invalid User Type!")
         conn = mysql.connect()
         cursor =conn.cursor()
         cursor.execute("SELECT * from users where email=%s",(email))
         exist = cursor.fetchone()
         if exist:
-            return "Email address already registered!"
-        cursor.execute("INSERT INTO users (email, password, first_name,last_name,country,gender) VALUES (%s, %s,%s, %s,%s, %s);",(email,password,first_name,last_name,country,gender))
+            return render_template("register.html",error="Email address already registered!")
+        cursor.execute("INSERT INTO users (email, password, first_name,last_name,country,gender,type,city,address) VALUES (%s, %s,%s, %s,%s, %s, %s,%s, %s);",(email,password,first_name,last_name,country,gender,type,city,address))
         conn.commit()
         return redirect(url_for("login"))
     return render_template("register.html")
 
-@app.route("/checkout/<string:total_price>,")
+@app.route("/checkout", methods=['GET','POST'])
+def checkout():        
+    if 'loggedin' in session:
+        cart_total = request.form['cart_total']
+        product_ids = request.form['product_ids']
+        product_ids = product_ids.split(",")
+        print(cart_total)
+        print(product_ids)
+        # fetch book data 
+        user_id = session['userid']
+        conn = mysql.connect()
+        cursor =conn.cursor()
+        cursor.execute("SELECT * from users where userid=%s",(user_id))
+        user_data = cursor.fetchone()
+        city = user_data[8]
+        address = user_data[9]
+        book = cursor.fetchone()
+        for i in product_ids:
+            print(i)
+            cursor =conn.cursor()
+            cursor.execute("SELECT * from books where id=%s",(i))
+            book = cursor.fetchone()
+            print("book")
+            print(book)
+            book_id = book[0]
+            print(book_id)
+            publisher_id = book[10]
+            price = book[5]
+            cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address) VALUES (%s, %s,%s, %s,%s, %s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address))
+            conn.commit()
+        return "Order Placed Successfully!"
+    else:
+        return "Please Login First!"
+
+@app.route("/order-placed")
+def order_placed():
+    if 'loggedin' in session:
+        return render_template("order-placed.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    else:
+        return "Please Login First!"
+
+@app.route("/view-user-orders/<int:userid>")
+def view_user_orders(userid):
+    if 'loggedin' in session:
+        conn = mysql.connect()
+        cursor =conn.cursor()
+        cursor.execute("SELECT * from orders where user_id=%s and status='pending'",(userid))
+        pending_orders = cursor.fetchall()
+        cursor.execute("SELECT * from orders where user_id=%s and status='delivered'",(userid))
+        delivered_orders = cursor.fetchall()
+        return render_template("view-user-orders.html",pending_orders=pending_orders,delivered_orders=delivered_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    else:
+        return "Please Login First!"
+
+@app.route("/view-shopkeeper-orders/<int:userid>")
+def view_shopkeepers_orders(userid):
+    if 'loggedin' in session:
+        conn = mysql.connect()
+        cursor =conn.cursor()
+        cursor.execute("SELECT * from orders where publisher_id=%s and status='pending'",(userid))
+        pending_orders = cursor.fetchall()
+        cursor.execute("SELECT * from orders where publisher_id=%s and status='delivered'",(userid))
+        delivered_orders = cursor.fetchall()
+        return render_template("view-shopkeeper-orders.html",pending_orders=pending_orders,delivered_orders=delivered_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    else:
+        return "Please Login First!"
+
+@app.route("/deliver-order/<int:id>")
+def deliver_order(id):
+    if 'loggedin' in session: 
+        if session['type'] == 'shopkeeper':
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("UPDATE orders SET status='delivered' WHERE order_id=%s",(id))
+            conn.commit()
+            return redirect(url_for("view_shopkeepers_orders",userid=session['userid']))
+        else:
+            return "Please Login First as shopkeeper!"
+    else:
+        return "Please Login First!"
+
+@app.route("/rate-order/<int:id>", methods=['GET','POST'])
+def rate_order(id):
+    if 'loggedin' in session: 
+        if session['type'] == 'user':
+            rate = request.form.get("rate")
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("UPDATE orders SET rating=%s WHERE order_id=%s",(rate,id))
+            conn.commit()
+            return redirect(url_for("view_user_orders",userid=session['userid']))
+        else:
+            return "Please Login First as user!"
+    else:
+        return "Please Login First!"
+
+@app.route("/cancel-order/<int:id>")
+def cancel_order(id):
+    if 'loggedin' in session: 
+        if session['type'] == 'user':
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("DELETE FROM orders WHERE order_id=%s",(id))
+            conn.commit()
+            return redirect(url_for("view_user_orders",userid=session['userid']))
+        else:
+            return "Please Login First as shopkeeper!"
+    else:
+        return "Please Login First!"
+
+
+
+
+    
+
 
 
 #ADMIN DASHBOARD
@@ -261,7 +385,7 @@ def users():
             cursor =conn.cursor()
             cursor.execute("SELECT * from users")
             users = cursor.fetchall()
-            return render_template("users.html",loggedin=True,users=users,username=session['name'],type=session['type'])
+            return render_template("users.html",loggedin=True,users=users,username=session['name'],userid=session['userid'],type=session['type'])
         else:
             return "Admin Account Not Found!"
     else:
@@ -275,11 +399,66 @@ def books():
             cursor =conn.cursor()
             cursor.execute("SELECT * from books")
             books = cursor.fetchall()
-            return render_template("books.html",loggedin=True,books=books,username=session['name'],type=session['type'])
+            return render_template("books.html",loggedin=True,books=books,username=session['name'],userid=session['userid'],type=session['type'])
         else:
             return "Admin Account Not Found!"
     else:
         return "Please Login First as a admin!"
+
+@app.route("/orders")
+def orders():        
+    if 'loggedin' in session: 
+        if session['type'] == 'admin':    
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("SELECT * from orders")
+            orders = cursor.fetchall()
+            return render_template("orders.html",loggedin=True,orders=orders,username=session['name'],userid=session['userid'],type=session['type'])
+        else:
+            return "Admin Account Not Found!"
+    else:
+        return "Please Login First as a admin!"
+
+        
+@app.route("/delete-user/<int:id>")
+def delete_user(id):
+    if 'loggedin' in session: 
+        if session['type'] == 'admin':            
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("DELETE  from users where userid=%s",(id))
+            conn.commit()
+            return redirect(url_for("users"))
+        else:
+            return "Please Login First as Admin!"
+    else:
+        return "Please Login First as Admin!"
+        
+@app.route("/my-account", methods = ['GET','POST'])
+def my_account():
+    if 'loggedin' in session: 
+        if session['type'] == 'admin':
+            if request.method == 'POST':
+                email = request.form.get("email")
+                first_name = request.form.get("first_name")
+                last_name = request.form.get("last_name")
+                gender = request.form.get("gender")
+                password = request.form.get("password")
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("UPDATE users SET email=%s,first_name=%s,last_name=%s,gender=%s,password=%s WHERE userid=%s",(email,first_name,last_name,gender,password,session['userid']))
+                conn.commit()
+                return redirect(url_for("users"))
+            else:
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("SELECT * from users where userid=%s",session['userid'])
+                data = cursor.fetchone()
+                return render_template("my-account.html",data=data)
+        else:
+            return "Please Login First as Admin!"
+    else:
+        return "Please Login First as Admin!"
 
 
 

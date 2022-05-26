@@ -11,6 +11,15 @@
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <style>
+        .error{
+            color: red;
+            /* background-color: black; */
+            margin: 0.8rem;
+            font-size: 1.2rem;
+        }
+    </style>
+
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     {% endblock %}
@@ -43,6 +52,11 @@
                                     <input type="text" name="last_name" placeholder="Last Name" required />
                                 </div>
                             </div>
+                            <div class="col_half">
+                                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                    <input type="text" name="address" placeholder="Delivery Address" />
+                                </div>
+                            </div>
                             
                         </div>
                         <div class="input_field radio_option">
@@ -54,18 +68,37 @@
                         <div class="input_field select_option">
                             <select name="country">
                                 <option>Select a country</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
+                                <option selected value="pakistan">Pakistan</option>
+                                <option value="australia">Australia</option>
+                            </select>
+                            <div class="select_arrow"></div>
+                        </div>
+                        <div class="input_field select_option">
+                            <select name="city">
+                                <option>Select a city</option>
+                                <option selected value="karachi">Karachi</option>
+                                <option value="islamabad">Islamabad</option>
+                                <option value="lahore">Lahore</option>
+                            </select>
+                            <div class="select_arrow"></div>
+                        </div>
+                        <div class="input_field select_option">
+                            <select name="type">
+                                <option>Select account type</option>
+                                <option value="user">User</option>
+                                <option value="shopkeeper">Shop Keeper</option>
                             </select>
                             <div class="select_arrow"></div>
                         </div>
                         <div class="input_field checkbox_option">
                             <input type="checkbox" id="cb1" required>
                             <label for="cb1">I agree with terms and conditions</label>
+                            {% if error %}
+                            <p class="error">{{error}}</p>
+                            {% endif %}
                         </div>
-                       
                         <input class="button" type="submit" value="Register" />
-                        <a href="login.html"> Sign in </a>
+                        <a href="/login" class="sibutton"> Sign in </a>
                     </form>
                 </div>
             </div>

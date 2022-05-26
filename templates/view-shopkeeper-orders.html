@@ -1,0 +1,195 @@
+{% extends 'layout.html' %} 
+{% block title %}Orders{% endblock %} 
+
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/static/assets/css/product.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.1.3/iscroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.22/webfontloader.js"></script>
+
+    <link rel="stylesheet" href="/static/assets/css/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/css/style.scss">
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <style>
+        table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: .5em 0 .75em;
+}
+
+table tr {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: .35em;
+}
+
+table th,
+table td {
+  padding: .625em;
+  text-align: center;
+}
+
+table th {
+  font-size: .85em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+  
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  table td:last-child {
+    border-bottom: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* general styling */
+body {
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.25;
+}
+        </style>
+    {% endblock %}
+    {% block content %} 
+            <div class="header_tex1">
+                <h1>Orders Pending!</h1>
+            </div>
+            <!-- <div class="container" style="overflow-x:auto;"> -->
+            <div>
+                <table>
+                    <thead>
+                    <tr>
+                      <th scope="col">OrderID</th>
+                      <th scope="col">BookID</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">City</th>
+                      <th scope="col">Delivery_Address</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in pending_orders %}
+                    <tr>
+                      <td scope="row">{{i[0]}}</td>
+                      <td>{{i[2]}}</td>
+                      <td>{{i[4]}}</td>
+                      <td>{{i[7]}}</td>
+                      <td>{{i[8]}}</td>
+                      <td>{{i[5]}}</td>
+                      <td>{{i[5]}}</td>
+                      <!-- <td><a href="/deliver-order/{{i[0]}}"><button class="table-btn">Mark as Delivered</button></a></td> -->
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+            <div class="header_tex1">
+                <h1>Orders Delivered!</h1>
+            </div>
+            <div class="container" style="overflow-x:auto;">
+                <table>
+                    <tr>
+                      <th>OrderID</th>
+                      <th>BookID</th>
+                      <th>Price</th>
+                      <th>City</th>
+                      <th>Delivery_Address</th>
+                      <th>Status</th>
+                      <th>Rating</th>
+                    </tr>
+                    {% for i in delivered_orders %}
+                    <tr>
+                      <td>{{i[0]}}</td>
+                      <td>{{i[2]}}</td>
+                      <td>{{i[4]}}</td>
+                      <td>{{i[7]}}</td>
+                      <td>{{i[8]}}</td>
+                      <td>{{i[5]}}</td>
+                      {% if not i[6] %}
+                      <td>Not Rated Yet</td>
+                      {% else %}
+                      <td>{{i[6]}}</td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                  </table>
+            </div>
+        </div>
+    {% endblock %}

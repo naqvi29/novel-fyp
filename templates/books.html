@@ -23,7 +23,6 @@
                             <th>Quantity</th>
                             <th>Rating</th>
                             <th>Image</th>
-                            <th>Edit</th>
                             <th>Delete</th>
                         </thead>
                         <tbody>
@@ -38,7 +37,6 @@
                                 <td>{{i[6]}}</td>
                                 <td>{{i[9]}}</td>
                                 <td><a href="/static/assets/book-images/{{i[7]}}" target="blank"><button class="btn btn-sm btn-success">View</button></a></td>
-                                <td><a href="/edit-book/{{i[0]}}"><button class="btn btn-sm btn-secondary">Edit</button></a></td>
                                 <td><a onclick="return confirm('Are you sure you want to delete this user?');" href="/delete-book/{{i[0]}}"><button class="btn btn-sm btn-danger">Delete</button></a></td>
                                 {% endfor %}
                         </tbody>

@@ -17,7 +17,7 @@
   rel="stylesheet"
   href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
 />
-{% endblock %} {% block title %}Novels{% endblock %} {% block content %}
+{% endblock %} {% block title %}Home{% endblock %} {% block content %}
 <section class="headaer_1">
   <div class="container">
     <div class="row">
@@ -47,6 +47,25 @@
     </div>
   </div>
 
+
+
+<div class="products_slid">
+            <div class="container-fluid">
+                <div class="row">
+        {% for i in fiction %}
+                    <div class="col-sm-4"><a href=""> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                        <h4>{{i[1]}}</h4>
+                        <p>Rs-{{i[5]}}</p>
+                    </a></div>
+        {% endfor %}
+                  
+                </div>
+            </div>
+        </div>
+
+
+
+
   <div class="container">
     <div class="header_tex1">
       <h1>Science</h1>
@@ -66,6 +85,21 @@
       <button class="ctrl-btn pro-next2">Next</button>
     </div>
   </div>
+
+  <div class="products_slid">
+            <div class="container-fluid">
+                <div class="row">
+                {% for i in science %}
+                    <div class="col-sm-4"><a href=""> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                        <h4>{{i[1]}}</h4>
+                        <p>Rs-{{i[5]}}</p>
+                    </a></div>
+                  {% endfor %}
+                  
+                </div>
+            </div>
+        </div>
+
   <div class="container">
     <div class="header_tex1">
       <h1>Comics</h1>
@@ -85,6 +119,23 @@
       <button class="ctrl-btn pro-next3">Next</button>
     </div>
   </div>
+
+
+
+  <div class="products_slid">
+            <div class="container-fluid">
+                <div class="row">
+                  {% for i in comics %}
+                    <div class="col-sm-4"><a href=""> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                        <h4>{{i[1]}}</h4>
+                        <p>Rs-{{i[5]}}</p>
+                    </a></div>
+                  {% endfor %}
+                  
+                </div>
+            </div>
+        </div>
+
 </section>
 {% endblock %} {% block scripts %}
 

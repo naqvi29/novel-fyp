@@ -12,6 +12,58 @@ body{
   background-color: #f9db9f !important;
 
 
+
+
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+  .products_slid{
+
+    display: block;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {  .products_slid{
+
+  display: block;
+}}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {.products_slid {
+  display: none;
+
+}}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {.products_slid {
+  display: none;
+
+}}
+
+
+  .products_slid .col-sm-4 {
+  width: 33%;
+}
+
+.products_slid .item{
+  height: 161px;
+}
+.products_slid a{
+  text-align: center;
+}
+.products_slid h4{
+font-size: 12px;
+}
+
+
+
+
+
+
+
+
 } */
 
 .container-fluid {

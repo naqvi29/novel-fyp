@@ -1,5 +1,5 @@
 {% extends 'layout.html' %} 
-{% block title %}Novels{% endblock %} 
+{% block title %}Category{% endblock %} 
 
 {% block head %}
     <meta charset="UTF-8">
@@ -21,6 +21,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.22/webfontloader.js"></script>
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="/static/assets/css/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/css/style.scss">
     {% endblock %}
     {% block content %} 
     <section class="headaer_1">
@@ -98,17 +101,25 @@
 
         <div class="container" style="text-align: center;">
             {% for i in books %}
-            <div class="cont">
+            <div class="cont"><a href="/book-detail/{{i[0]}}">
                 <div class="product" data-id="id02" data-price="{{i[5]}}" data-title="{{i[1]}}"
                     data-img="/static/assets/book-images/{{i['7']}}"
                     data-url="https://www.momastore.org/museum/moma/ProductDisplay_Stockwell%20Travel%20Speaker_10451_10001_223993_-1_26707_26707_224026"
                     style="background: url(/static/assets/book-images/{{i[7]}});background-size: cover;">
-                </div>
+                </div></a>
 
-                <h4>{{i[1]}}</h4>
-                <p>Rs-{{i[5]}}</p>
-                <span class="add-to-cart"><i class="fa fa-bag-shopping"></i></span>
-                <span class="add-to-wish"><i class="fa fa-heart"></i></span>
+                <a style="text-decoration: none;" href="/book-detail/{{i[0]}}"><h4>{{i[1]}}</h4></a>
+                <p>Rs-{{i[5]}}</p> 
+                {% if loggedin %}
+                <p class="flex flex-wrap flex-center flex-gap-xxs">
+                    <a href="#0" class=" js-cd-add-to-cart" data-id="{{i[0]}}" data-price="{{i[5]}}" data-title="{{i[1]}}" data-img="{{i[7]}}"><i class="fa fa-bag-shopping"></i></a>
+                </p>
+                {% else %} 
+                <span onclick="loginE()" class="add-to-cart"><i class="fa fa-bag-shopping"></i></span>
+                <span onclick="loginE()" class="add-to-wish"><i class="fa fa-heart"></i></span>
+                {% endif %}
+                <!-- <span class="add-to-cart"><i class="fa fa-bag-shopping"></i></span>
+                <span class="add-to-wish"><i class="fa fa-heart"></i></span> -->
             </div>
             {% endfor %}
         </div>
@@ -183,6 +194,42 @@
         <!--wrapper-->
 
     </section>
+    <div class="cd-cart cd-cart--empty js-cd-cart">
+        <a href="#0" class="cd-cart__trigger text-replace">
+            Cart
+            <ul class="cd-cart__count"> <!-- cart items count -->
+                <li>0</li>
+                <li>0</li>
+            </ul> <!-- .cd-cart__count -->
+        </a>
+    
+        <div class="cd-cart__content">
+            <div class="cd-cart__layout">
+                <header class="cd-cart__header">
+                    <h2>Cart</h2>
+                    <span class="cd-cart__undo">Item removed. <a href="#0">Undo</a></span>
+                </header>
+                
+                <div class="cd-cart__body">
+                    <ul>
+                        <!-- products added to the cart will be inserted here using JavaScript -->
+                    </ul>
+                </div>
+                <div id="chckout"></div>
+    
+                <footer class="cd-cart__footer">
+                    <a href="#0" class="cd-cart__checkout">
+              <em onclick="checkoutt()">Checkout - $<span>0</span>
+                <svg class="icon icon--sm" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><line stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="3" y1="12" x2="21" y2="12"/><polyline stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="15,6 21,12 15,18 "/></g>
+                </svg>
+              </em>
+            </a>
+            <p style="background-color:black; color: white; text-align: center;">Method <bold style="background-color:black; color: white; text-align: center;">Home Delivery</bold></p>
+                </footer>
+            </div>
+            <span id="groot" hidden></span>
+        </div> <!-- .cd-cart__content -->
+    </div>
     {% endblock %}
     {% block scripts %}
     <script src="/static/assets/js/slider.js"></script>
@@ -222,4 +269,37 @@
     </script>
 
     <script src="/static/assets/js/cart.js"></script>
+    <script>
+        function loginE(){
+            console.log("gg");
+            alert("Login First!");
+        }
+    </script>
+
+    <script src="/static//assets/js/js/main.js"></script>
+    <script src="/static//assets/js/js/util.js"></script>
+
+    <script type="text/javascript">
+        function checkoutt(){
+  		    cartTotal = document.getElementsByClassName('cd-cart__checkout')[0].getElementsByTagName('span')[0],
+            console.log(cartTotal.innerText)
+            productids = document.getElementById("groot").innerHTML
+            console.log("productids")
+            console.log(productids)
+            $.ajax({
+                // data : cartList[0],
+                data : {
+                    'cart_total' : cartTotal.innerText,
+                    'product_ids' : productids,
+                },
+                type : 'POST',
+                url : '/checkout'
+                })
+                .done(function(data){
+                // $('#output').text(data.output).show();
+                window.location.href = '/order-placed';
+                });
+                // e.preventDefault();
+            }
+    </script>
     {% endblock %}

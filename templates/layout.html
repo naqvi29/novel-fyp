@@ -5,6 +5,8 @@
     {% block head %}{% endblock %}
 
     <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="/static/assets/favicons/android-chrome-512x512.png">
+    <link rel="icon" type="image/x-icon" href="/static/assets/favicons/apple-touch-icon.png">
 </head>
 
 <body>
@@ -55,6 +57,7 @@
                     <li class="dropdown">
                         <a class="dropbtn btn">Category <i class="fa fa-caret-down"></i></a>
                         <div class="dropdown-content">
+                            <a href="/all-books">All </a>
                             <a href="/books-by-category/fiction">Fiction </a>
                             <a href="/books-by-category/science">Science</a>
                             <a href="/books-by-category/comics">Comics</a>
@@ -72,12 +75,17 @@
                     </li>
                     {% if loggedin %}
                     {% if type=='shopkeeper' %}
-                    <li><a href="/add-book">Add Book</a></li>
-                    <li><a href="/my-books">My Books</a></li>
+                    <li><a class="btn" href="/add-book">Add Book</a></li>
+                    <li><a class="btn" href="/my-books">My Books</a></li>
+                    <li><a class="btn" class="btn" href="/view-shopkeeper-orders/{{userid}}">Orders</a></li>   
+                    {% elif  type =='user' %}
+                    <li><a class="btn" href="/view-user-orders/{{userid}}">Orders</a></li>      
+                    {% elif type =='admin' %}   
+                    <li><a class="btn" href="/admin-dashboard">Admin Dashboard</a></li>      
                     {% endif %}
                     {% endif %}
 
-                    {% if loggedin %}
+                    {% if loggedin %}               
                     <li><a class="btn" href="#">{{username}}</a></li>                    
                     <li><a class="btn" href="/logout">Logout</a></li>
                     {% else %} 

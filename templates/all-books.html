@@ -1,5 +1,5 @@
 {% extends 'layout.html' %} 
-{% block title %}Novels{% endblock %} 
+{% block title %}All Books{% endblock %} 
 
 {% block head %}
     <meta charset="UTF-8">
@@ -102,13 +102,13 @@
         <div class="container" style="text-align: center;">
             {% for i in books %}
             <div class="cont">
-                <div class="product" id="id{{i[0]}}" data-id="id{{i[0]}}" data-price="{{i[5]}}" data-title="{{i[1]}}"
+                <a href="/book-detail/{{i[0]}}"><div class="product" id="id{{i[0]}}" data-id="id{{i[0]}}" data-price="{{i[5]}}" data-title="{{i[1]}}"
                     data-img="static/assets/book-images/{{i['7']}}"
                     data-url="https://www.momastore.org/museum/moma/ProductDisplay_Stockwell%20Travel%20Speaker_10451_10001_223993_-1_26707_26707_224026"
                     style="background: url(static/assets/book-images/{{i[7]}});background-size: cover;">
-                </div>
+                </div></a>
 
-                <h4>{{i[1]}}</h4>
+                <a style="text-decoration: none;" href="/book-detail/{{i[0]}}"><h4>{{i[1]}}</h4></a>
                 <p>Rs-{{i[5]}}</p>
                 <input hidden type="number" step="any"  id="price-{{i[0]}}" value="{{i[5]}}">
                 {% if loggedin %}
@@ -227,8 +227,10 @@
                 </svg>
               </em>
             </a>
+            <p style="background-color:black; color: white; text-align: center;">Method <bold style="background-color:black; color: white; text-align: center;">Home Delivery</bold></p>
                 </footer>
             </div>
+            <span id="groot" hidden></span>
         </div> <!-- .cd-cart__content -->
     </div>
     {% endblock %}
@@ -280,10 +282,27 @@
     <script src="/static//assets/js/js/main.js"></script>
     <script src="/static//assets/js/js/util.js"></script>
 
-    <script>
+    <script type="text/javascript">
         function checkoutt(){
-			console.log(productids)
-			console.log(cartTotal)
-        }
+  		    cartTotal = document.getElementsByClassName('cd-cart__checkout')[0].getElementsByTagName('span')[0],
+            console.log(cartTotal.innerText)
+            productids = document.getElementById("groot").innerHTML
+            console.log("productids")
+            console.log(productids)
+            $.ajax({
+                // data : cartList[0],
+                data : {
+                    'cart_total' : cartTotal.innerText,
+                    'product_ids' : productids,
+                },
+                type : 'POST',
+                url : '/checkout'
+                })
+                .done(function(data){
+                // $('#output').text(data.output).show();
+                window.location.href = '/order-placed';
+                });
+                // e.preventDefault();
+            }
     </script>
     {% endblock %}
