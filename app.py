@@ -1,10 +1,7 @@
-
-from django.shortcuts import render
 from flask import Flask, render_template,request, url_for, redirect,session,jsonify
 from flaskext.mysql import MySQL
 import os
 from os.path import join, dirname, realpath
-from importlib_metadata import method_cache
 from werkzeug.utils import secure_filename
 from PIL import Image
 
@@ -12,7 +9,7 @@ app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
-app.config['MYSQL_DATABASE_DB'] = 'novel-fyp'
+app.config['MYSQL_DATABASE_DB'] = 'book_kingdom'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 # app.config['MYSQL_DATABASE_USER'] = 'root'
 # app.config['MYSQL_DATABASE_PASSWORD'] = 'LAwrence1234**'

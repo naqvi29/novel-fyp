@@ -63,11 +63,11 @@
                     {% endif %}
 
                     {% if loggedin %}               
-                    <li style="margin-left:2rem;"><a class="btn" href="#">{{username}}</a></li>                                        
                     <li><a class="btn" href="/logout">Logout</a></li>
+                    <li style="margin-left:2rem;"><a class="btn dangare" href="#">{{username}}</a></li>                                        
                     {% else %} 
-                    <li style="margin-left:2rem;"><a class="btn" href="/login">Sign In</a></li>
                     <li><a class="btn" href="/register">Registration</a></li>
+                    <li style="margin-left:2rem;"><a class="btn" href="/login">Sign In</a></li>
                     {% endif %}
 
 
@@ -87,7 +87,7 @@
         <div class="row">
             <div class="col-3">
                 <div class="nav-header">
-                    <a href="index.html" class="logo_foot">
+                    <a href="/" class="logo_foot">
                         <img src="static/assets/images/white-logo.png" alt="">
                     </a>
                 </div>
