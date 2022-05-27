@@ -36,7 +36,8 @@
                             <input type="email" name="email" placeholder="Email" required />
                         </div>
                         <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
-                            <input type="password" name="password" placeholder="Password" required />
+                            <input id="id_password" type="password" name="password" placeholder="Password" required />
+                            <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer; display: inline;"></i>
                         </div>
                         <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
                             <input type="password" name="conf_password" placeholder="Re-type Password" required />
@@ -52,11 +53,6 @@
                                     <input type="text" name="last_name" placeholder="Last Name" required />
                                 </div>
                             </div>
-                            <div class="col_half">
-                                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                    <input type="text" name="address" placeholder="Delivery Address" />
-                                </div>
-                            </div>
                             
                         </div>
                         <div class="input_field radio_option">
@@ -64,23 +60,6 @@
                             <label for="rd1">Male</label>
                             <input type="radio" name="radiogroup1" id="rd2" value="female">
                             <label for="rd2">Female</label>
-                        </div>
-                        <div class="input_field select_option">
-                            <select name="country">
-                                <option>Select a country</option>
-                                <option selected value="pakistan">Pakistan</option>
-                                <option value="australia">Australia</option>
-                            </select>
-                            <div class="select_arrow"></div>
-                        </div>
-                        <div class="input_field select_option">
-                            <select name="city">
-                                <option>Select a city</option>
-                                <option selected value="karachi">Karachi</option>
-                                <option value="islamabad">Islamabad</option>
-                                <option value="lahore">Lahore</option>
-                            </select>
-                            <div class="select_arrow"></div>
                         </div>
                         <div class="input_field select_option">
                             <select name="type">
@@ -112,5 +91,17 @@
             Rs-(footerBtn).toggleClass("btnActive");
             Rs-(footerBtn).next().toggleClass("active");
         }
+    </script>
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#id_password');
+        
+        togglePassword.addEventListener('click', function (e) {
+                // toggle the type attribute
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                // toggle the eye slash icon
+                this.classList.toggle('fa-eye-slash');
+            });
     </script>
     {% endblock %}

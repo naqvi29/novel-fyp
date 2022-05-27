@@ -200,7 +200,7 @@ def login():
             session['loggedin'] = True
             session['userid'] = account[0]
             session['name'] = account[3]+ " " + account[4]
-            session['type'] = account[7]
+            session['type'] = account[6]
             if session['type'] == "admin":
                 return redirect(url_for("admin_dashboard"))
             else:
@@ -226,16 +226,11 @@ def register():
         conf_password = request.form.get("conf_password")
         first_name = request.form.get("first_name")
         last_name = request.form.get("last_name")
-        country = request.form.get("country")
-        city = request.form.get("city")
-        address = request.form.get("address")
         type = request.form.get("type")
         print(type)
         gender = request.form.get("radiogroup1")
-        if not email or not password or not conf_password or not first_name or not last_name or not country or not gender or not type:
+        if not email or not password or not conf_password or not first_name or not last_name or not gender or not type:
             return render_template("register.html",error="Oops! Something is missing")
-        if type == 'user' and not address:
-            return render_template("register.html",error="Address not found!")
         if password != conf_password:
             return render_template("register.html",error="Password doesn't match!")
         if type != "user" and type != "shopkeeper":
@@ -246,7 +241,7 @@ def register():
         exist = cursor.fetchone()
         if exist:
             return render_template("register.html",error="Email address already registered!")
-        cursor.execute("INSERT INTO users (email, password, first_name,last_name,country,gender,type,city,address) VALUES (%s, %s,%s, %s,%s, %s, %s,%s, %s);",(email,password,first_name,last_name,country,gender,type,city,address))
+        cursor.execute("INSERT INTO users (email, password, first_name,last_name,gender,type) VALUES (%s,%s, %s, %s,%s, %s);",(email,password,first_name,last_name,gender,type))
         conn.commit()
         return redirect(url_for("login"))
     return render_template("register.html")
@@ -515,7 +510,26 @@ def my_account():
     else:
         return "Please Login First as Admin!"
 
+@app.route("/our-vision")
+def our_vision():
+    if 'loggedin' in session:    
+        return render_template("our-vision.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    else:
+        return render_template("our-vision.html",loggedin=False)
 
+@app.route("/about-us")
+def about_us():
+    if 'loggedin' in session:    
+        return render_template("about-us.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    else:
+        return render_template("about-us.html",loggedin=False)
+
+@app.route("/contact-us")
+def contact_us():
+    if 'loggedin' in session:    
+        return render_template("contact-us.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    else:
+        return render_template("contact-us.html",loggedin=False)
 
 if __name__ == '__main__':
     app.run(debug=True)
