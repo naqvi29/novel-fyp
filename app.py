@@ -1,5 +1,6 @@
 
-from flask import Flask, render_template,request, url_for, redirect,session
+from django.shortcuts import render
+from flask import Flask, render_template,request, url_for, redirect,session,jsonify
 from flaskext.mysql import MySQL
 import os
 from os.path import join, dirname, realpath
@@ -255,6 +256,7 @@ def checkout():
     if 'loggedin' in session:
         cart_total = request.form['cart_total']
         product_ids = request.form['product_ids']
+        return str(product_ids)
         product_ids = product_ids.split(",")
         print(cart_total)
         print(product_ids)
@@ -281,6 +283,55 @@ def checkout():
             cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address) VALUES (%s, %s,%s, %s,%s, %s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address))
             conn.commit()
         return "Order Placed Successfully!"
+    else:
+        return "Please Login First!"
+
+
+@app.route("/cart/<string:product_ids>", methods=["GET","POST"])
+def cart(product_ids):        
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            product_ids = request.form['product_ids']
+            product_ids = product_ids.split(",")
+            name = request.form['name']
+            email = request.form['email']
+            phone = request.form['phone']
+            address = request.form['address']
+            del_ins = request.form['del_ins']
+            city = request.form['city']
+            print(product_ids)
+            print(name)
+            print(email)
+            print(phone)
+            print(address)
+            print(del_ins)
+            # fetch book data 
+            user_id = session['userid']
+            sub_total = 0
+            for i in product_ids:
+                print(i)
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("SELECT * from books where id=%s",(i))
+                book = cursor.fetchone()
+                book_id = book[0]
+                publisher_id = book[10]
+                price = book[5]
+                cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins))
+                conn.commit()
+            return redirect(url_for("order_placed"))
+        else:
+            products = []
+            productids = product_ids.split(",")
+            sub_total = 0
+            for i in productids:
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("SELECT * from books where id=%s",(int(i)))
+                product = cursor.fetchone()
+                sub_total = sub_total+float(product[5])
+                products.append(product)
+            return render_template("cart.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'],products=products,sub_total=sub_total,product_ids=product_ids)
     else:
         return "Please Login First!"
 

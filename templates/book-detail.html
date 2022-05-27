@@ -31,90 +31,65 @@
     <div class="container">
       <div class="card-wrapper">
         <div class="card-p">
-          <!-- card left -->
-          <!-- <div class = "product-imgs">
-                    <div class = "img-display">
-                      <div class = "img-showcase">
-                        <img src = "https://fadzrinmadu.github.io/hosted-/static/assets/product-detail-page-design-with-image-slider-html-css-and-javascript/shoe_1.jpg" alt = "shoe image">
-                        <img src = "https://fadzrinmadu.github.io/hosted-/static/assets/product-detail-page-design-with-image-slider-html-css-and-javascript/shoe_2.jpg" alt = "shoe image">
-                        <img src = "https://fadzrinmadu.github.io/hosted-/static/assets/product-detail-page-design-with-image-slider-html-css-and-javascript/shoe_3.jpg" alt = "shoe image">
-                        <img src = "https://fadzrinmadu.github.io/hosted-/static/assets/product-detail-page-design-with-image-slider-html-css-and-javascript/shoe_4.jpg" alt = "shoe image">
-                      </div>
-                    </div>
-                    <div class = "img-select">
-                      <div class = "img-item">
-                        <a href = "#" data-id = "1">
-                          <img src = "https://fadzrinmadu.github.io/hosted-/static/assets/product-detail-page-design-with-image-slider-html-css-and-javascript/shoe_1.jpg" alt = "shoe image">
-                        </a>
-                      </div>
-                      <div class = "img-item">
-                        <a href = "#" data-id = "2">
-                          <img src = "https://fadzrinmadu.github.io/hosted-/static/assets/product-detail-page-design-with-image-slider-html-css-and-javascript/shoe_2.jpg" alt = "shoe image">
-                        </a>
-                      </div>
-                      <div class = "img-item">
-                        <a href = "#" data-id = "3">
-                          <img src = "https://fadzrinmadu.github.io/hosted-/static/assets/product-detail-page-design-with-image-slider-html-css-and-javascript/shoe_3.jpg" alt = "shoe image">
-                        </a>
-                      </div>
-                      <div class = "img-item">
-                        <a href = "#" data-id = "4">
-                          <img src = "https://fadzrinmadu.github.io/hosted-/static/assets/product-detail-page-design-with-image-slider-html-css-and-javascript/shoe_4.jpg" alt = "shoe image">
-                        </a>
-                      </div>
-                    </div>
-                  </div> -->
-          <!-- card right -->
           <div class="img_p">
             <img src="/static/assets/book-images/{{book[7]}}" alt="">
           </div>
           <div class="product-content">
-            <!-- <a href="#" class="product-link">visit nike store</a> -->
+            <p class="new-price">Title: <span>{{book[1]}}</span></p>
             <p class="new-price">Author: <span>{{book[2]}}</span></p>
 
             <div class="product-rating">
+              {% if book[9] == 1 %}
+              <i class="fas fa-star"></i>
+              <span>{{book[9]}}</span>
+              {% elif book[9] == 2 %}
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span>{{book[9]}}</span>
+              {% elif book[9] == 3 %}
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span>{{book[9]}}</span>
+              {% elif book[9] == 4 %}
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
-              <i class="fas fa-star-half-alt"></i>
-              <span>{{book[9]}}(21)</span>
+              <span>{{book[9]}}</span>
+              {% elif book[9] == 5 %}
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span>{{book[9]}}</span>
+              {% else %}
+              <i style="color:grey" class="fas fa-star"></i>
+              <i style="color:grey" class="fas fa-star"></i>
+              <i style="color:grey" class="fas fa-star"></i>
+              <i style="color:grey" class="fas fa-star"></i>
+              <i style="color:grey" class="fas fa-star"></i>
+              <span>N/A</span>
+              {% endif %}
             </div>
 
             <div class="product-price">
-              <!-- <p class="last-price">Old Price: <span>Rs-257.00</span></p> -->
               <p class="new-price">Price: <span>Rs-{{book[5]}}</span></p>
             </div>
 
             <div class="product-detail">
               <p>{{book[8][:1000]}}</p>
-              <!-- <ul>
-                        <li>Color: <span>Black</span></li>
-                        <li>Available: <span>in stock</span></li>
-                        <li>Category: <span>Shoes</span></li>
-                        <li>Shipping Area: <span>All over the world</span></li>
-                        <li>Shipping Fee: <span>Free</span></li>
-                      </ul> -->
             </div>
 
             <div class="purchase-info">
-
-              <!-- <input type="number" min="0" value="1"> -->
-              <!-- <a href="details.html" type="button" class="btn">
-                Add to Cart <i class="fas fa-shopping-cart"></i>
-              </a> -->
               
               {% if loggedin %}
-              <!-- <span onclick="addtocart(i={{book[0]}})"><i class="fa fa-bag-shopping"></i></span> -->
               <p class="flex flex-wrap flex-gap-xxs">
-                  <!-- <a class="cd-article-link" href="https://codyhouse.co/gem/add-to-cart-interaction">📝 View Tutorial</a> -->
                   <a href="#0" class="btn js-cd-add-to-cart" data-id="{{book[0]}}" data-price="{{book[5]}}" data-title="{{book[1]}}" data-img="{{book[7]}}"><i class="fa fa-bag-shopping"></i>Add to cart</a>
               </p>
-              <!-- <span class="add-to-cart"><i class="fa fa-bag-shopping"></i></span>
-              <span class="add-to-wish"><i class="fa fa-heart"></i></span> -->
               {% else %}
               <p class="flex flex-wrap flex-gap-xxs">
-                  <!-- <a class="cd-article-link" href="https://codyhouse.co/gem/add-to-cart-interaction">📝 View Tutorial</a> -->
                   <a class="btn" onclick="loginE()"></i>Add to cart</a>
               </p>
               {% endif %}
@@ -152,12 +127,11 @@
   
               <footer class="cd-cart__footer">
                   <a href="#0" class="cd-cart__checkout">
-            <em onclick="checkoutt()">Checkout - $<span>0</span>
+            <em onclick="checkoutt()">Checkout - Rs<span>0</span>
               <svg class="icon icon--sm" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><line stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="3" y1="12" x2="21" y2="12"/><polyline stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="15,6 21,12 15,18 "/></g>
               </svg>
             </em>
           </a>
-          <p style="background-color:black; color: white; text-align: center;">Method <bold style="background-color:black; color: white; text-align: center;">Home Delivery</bold></p>
               </footer>
           </div>
           <span id="groot" hidden></span>
@@ -166,7 +140,7 @@
   {% endblock %}
   {% block scripts %}
 
-  <script src="/static/assets/js/cart.js"></script>
+  <!-- <script src="/static/assets/js/cart.js"></script> -->
 
 
   <script>
@@ -176,10 +150,6 @@
       Rs-(footerBtn).next().toggleClass("active");
     }
   </script>
-
-    <script src="/static//assets/js/js/main.js"></script>
-    <script src="/static//assets/js/js/util.js"></script>
-
     <script>
       function loginE(){
           alert("Login First!");
@@ -192,20 +162,24 @@
             productids = document.getElementById("groot").innerHTML
             console.log("productids")
             console.log(productids)
-            $.ajax({
-                // data : cartList[0],
-                data : {
-                    'cart_total' : cartTotal.innerText,
-                    'product_ids' : productids,
-                },
-                type : 'POST',
-                url : '/checkout'
-                })
-                .done(function(data){
-                // $('#output').text(data.output).show();
-                window.location.href = '/order-placed';
-                });
-                // e.preventDefault();
+            
+            window.location.href = '/cart/'+productids;
+
+            // $.ajax({
+            //     data : {
+            //         'cart_total' : cartTotal.innerText,
+            //         'product_ids' : productids,
+            //     },
+            //     type : 'POST',
+            //     url : '/checkout'
+            //     })
+            //     .done(function(data){
+            //       console.log(data)
+            //     window.location.href = '/order-placed';
+            //     });
             }
     </script>
-  {% endblock %}
+  
+    <script src="/static//assets/js/js/main.js"></script>
+    <script src="/static//assets/js/js/util.js"></script>
+    {% endblock %}

@@ -222,12 +222,11 @@
     
                 <footer class="cd-cart__footer">
                     <a href="#0" class="cd-cart__checkout">
-              <em onclick="checkoutt()">Checkout - $<span>0</span>
+              <em onclick="checkoutt()">Checkout - Rs<span>0</span>
                 <svg class="icon icon--sm" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><line stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="3" y1="12" x2="21" y2="12"/><polyline stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="15,6 21,12 15,18 "/></g>
                 </svg>
               </em>
             </a>
-            <p style="background-color:black; color: white; text-align: center;">Method <bold style="background-color:black; color: white; text-align: center;">Home Delivery</bold></p>
                 </footer>
             </div>
             <span id="groot" hidden></span>
@@ -289,20 +288,19 @@
             productids = document.getElementById("groot").innerHTML
             console.log("productids")
             console.log(productids)
-            $.ajax({
-                // data : cartList[0],
-                data : {
-                    'cart_total' : cartTotal.innerText,
-                    'product_ids' : productids,
-                },
-                type : 'POST',
-                url : '/checkout'
-                })
-                .done(function(data){
-                // $('#output').text(data.output).show();
-                window.location.href = '/order-placed';
-                });
-                // e.preventDefault();
+            
+            window.location.href = '/cart/'+productids;
+            // $.ajax({
+            //     data : {
+            //         'cart_total' : cartTotal.innerText,
+            //         'product_ids' : productids,
+            //     },
+            //     type : 'POST',
+            //     url : '/checkout'
+            //     })
+            //     .done(function(data){
+            //     window.location.href = '/order-placed';
+            //     });
             }
     </script>
     {% endblock %}
