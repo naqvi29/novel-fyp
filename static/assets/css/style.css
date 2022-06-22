@@ -1119,6 +1119,31 @@ form {
   .form_wrapper input[type=submit]:focus {
     background: #e1a70a;
   }
+
+
+  .secondbtn {
+    background: #0943d7;
+    height: 35px;
+    line-height: 35px;
+    width: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+  }
+  .secondbtn:hover {
+    background: #0943d7;
+  }
+  .secondbtn:focus {
+    background: #0943d7;
+  }
   .form_wrapper input[type=checkbox], .form_wrapper input[type=radio] {
     border: 0;
     clip: rect(0 0 0 0);
@@ -1581,7 +1606,8 @@ footer {
 }
 .search-bar a {
   position: absolute;
-  right: 181px;
+  right: 22%;
+  /* right: 181px; */
   top: 75px;
 }
 

@@ -32,7 +32,7 @@
 
             <!-- Left contact page -->
 
-            <form id="contact-form  input_field" class="form-horizontal" role="form">
+            <!-- <form action="/contact-us" id="contact-form  input_field" class="form-horizontal" role="form">
 
                 <div class="form-group">
                     <input type="text" class="form-control" id="name" placeholder="NAME" name="name" value="" required>
@@ -52,6 +52,24 @@
 
                 </button>
 
+            </form> -->
+            <form action="/contact-us" method="post" >
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="NAME" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" class="form-control"  placeholder="EMAIL" name="email" 
+                        required>
+                </div>
+
+                <textarea class="form-control" rows="10" placeholder="MESSAGE" name="message" required></textarea>
+
+                <button onsubmit="sent()" class="btn btn-primary send-button"  type="submit">
+                    Send
+                </button>
+
             </form>
 
             <!-- Left contact page -->
@@ -60,15 +78,14 @@
 
                 <ul class="contact-list">
                     <li class="list-item"><i class="fa fa-map-marker fa-2x"><span class="contact-text place">
-                                Iqra University
-                                    EDC campus 
-                            </span></i></li>
+                                Iqra University EDC campus 
+                            </span></i></li> 
 
                     <li class="list-item"><i class="fa fa-phone fa-2x"><span class="contact-text phone"><a
                                     href="tel:1-212-555-5555" title="Give me a call">03144490444</a></span></i></li>
 
                     <li class="list-item"><i class="fa fa-envelope fa-2x"><span class="contact-text gmail"><a
-                                    href="mailto:#" title="Send me an email">Bookkingdom@gmail.com</a></span></i></li>
+                                    href="mailto:#" title="Send me an email">bookkingdom172@gmail.com</a></span></i></li>
 
                 </ul>
 
@@ -89,4 +106,9 @@
             Rs-(footerBtn).next().toggleClass("active");
         }
     </script>
+<script>
+    function sent(){
+        swal("Sent!", "", "success");
+    }
+</script>
     {% endblock %}

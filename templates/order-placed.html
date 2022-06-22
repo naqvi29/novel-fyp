@@ -24,15 +24,20 @@
     <link rel="stylesheet" href="//static/assets/css/css/style.scss">
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="static/assets/css/3_pages.css">
     {% endblock %}
     {% block content %} 
     <section class="headaer_1">
         <div class="container">
             <div class="row">
-                <div class="search-bar">
+                <!-- <div class="search-bar">
                     <input type="text" placeholder="Find Book Search .......">
                     <a href=""> <i class="fa fa-search"></i> </a>
-                </div>
+                </div> -->
+                
+                <form action="/search" method="post" class="search">
+                    <input name="q" class="searchTerm" placeholder="Find Book Search  ..." /><button class="searchButton" type="submit"></button>
+                </form>
             </div>
         </div>
         <div class="container">
@@ -41,7 +46,11 @@
                 <!-- <a href=""> See All <i class="fa fa-angle-right"></i> </a> -->
             </div>
             <div class="container">
+                {% if type == 'user' %}
                     <a href="/view-user-orders/{{userid}}"><button style="margin: 1%; color: white; background-color: black; border-radius: 10%;">View Orders</button></a><a href="/"><button style="margin: 1%; color: white; background-color: black; border-radius: 10%;">Go Back</button></a>
+                {% elif type == "shopkeeper" %}
+                    <a href="/view-shopkeeper-orders/{{userid}}"><button style="margin: 1%; color: white; background-color: black; border-radius: 10%;">View Orders</button></a><a href="/"><button style="margin: 1%; color: white; background-color: black; border-radius: 10%;">Go Back</button></a>
+                {% endif %}
             </div>
 
 

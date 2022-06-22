@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .dangare{
+                background-color: red !important;
+                }
+        </style>
 
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
@@ -37,6 +42,18 @@
                             <input type="text" name="author" placeholder="Author " required />
                         </div>
                         <div class="input_field">
+                            <input type="text" name="publisher" placeholder="Publisher " required />
+                        </div>
+                        <div class="input_field">
+                            <input type="text" name="isbn" placeholder="ISBN # " required />
+                        </div>
+                        <div class="input_field">
+                            <input type="text" name="phone" placeholder="Phone # " required />
+                        </div>
+                        <div class="input_field">
+                            <input type="text" name="address" placeholder="Shop address " required />
+                        </div>
+                        <div class="input_field">
                             <!-- <input type="text" name="category" placeholder="Category " required /> -->
                             <select name="category">
                                 <option value="" disabled selected>Category</option>
@@ -55,6 +72,10 @@
                         <div class="input_field">
                             <input type="number" step="any" min="1" name="price" placeholder="Price " required />
                             Price
+                        </div>
+                        <div class="input_field">
+                            <input type="number" step="any" min="1" name="discount" placeholder="Discount in % " required />
+                            Discount in %
                         </div>
                         <div class="input_field">
                             <input type="number" value="1" name="quantity" placeholder="Quantity " required />

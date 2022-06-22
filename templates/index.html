@@ -2,9 +2,9 @@
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="static/assets/css/style.css" />
-<link rel="stylesheet" href="static/assets/css/navbar.css" />
-<link rel="stylesheet" href="static/assets/css/3_pages.css">
+<link rel="stylesheet" href="/static/assets/css/style.css" />
+<link rel="stylesheet" href="/static/assets/css/navbar.css" />
+<link rel="stylesheet" href="/static/assets/css/3_pages.css">
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -23,24 +23,24 @@
   <div class="container">
     <div class="row">
       <!-- <div class="search-bar">
-        <input id="q" type="text" placeholder="Find Book Search ......." />
-        <a onclick="searchF()"> <i class="fa fa-search"></i> </a>
+        <input class="searchTerm" id="q" type="text" placeholder="Find Book Search ......." />
+        <a class="searchButton" onclick="searchF()"> <i class="fa fa-search"></i> </a>
       </div> -->
-      <form class="search">
-        <input class="searchTerm" placeholder="Enter your search  ..." /><input class="searchButton" type="submit" />
+      <form action="/search" method="post" class="search">
+        <input name="q" class="searchTerm" placeholder="Find Book Search  ..." /><button class="searchButton" type="submit"></button>
       </form>
     </div>
   </div>
   <div class="container">
     <div class="header_tex1">
       <h1>Fiction</h1>
-      <a href="all-books"> See All <i class="fa fa-angle-right"></i> </a>
+      <a href="all-books" style="font-size: 1.3em; font-weight:bolder;">See All <i class="fa fa-angle-right"></i> </a>
     </div>
     <div class="slider" id="slider">
       <div class="slide" id="slide">
         {% for i in fiction %}
         <a href="/book-detail/{{i[0]}}">
-          <img class="item" src="static/assets/book-images/{{i[7]}}" />
+          <img class="item" src="/static/assets/book-images/{{i[7]}}" />
           <h4>{{i[1][:20]}}</h4>
           <p>Rs-{{i[5]}}</p>
         </a>
@@ -57,7 +57,7 @@
             <div class="container-fluid">
                 <div class="row">
         {% for i in fiction %}
-                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="/static/assets/book-images/{{i[7]}}">
                         <h4>{{i[1][:20]}}</h4>
                         <p>Rs-{{i[5]}}</p>
                     </a></div>
@@ -73,13 +73,13 @@
   <div class="container">
     <div class="header_tex1">
       <h1>Science</h1>
-      <a href="all-books"> See All <i class="fa fa-angle-right"></i> </a>
+      <a href="all-books" style="font-size: 1.3em; font-weight:bolder;"> See All <i class="fa fa-angle-right"></i> </a>
     </div>
     <div class="slider" id="slider2">
       <div class="slide" id="slide2">
         {% for i in science %}
         <a href="/book-detail/{{i[0]}}">
-          <img class="item" src="static/assets/book-images/{{i[7]}}" />
+          <img class="item" src="/static/assets/book-images/{{i[7]}}" />
           <h4>{{i[1][:20]}}</h4>
           <p>Rs-{{i[5]}}</p>
         </a>
@@ -94,7 +94,7 @@
             <div class="container-fluid">
                 <div class="row">
                 {% for i in science %}
-                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="/static/assets/book-images/{{i[7]}}">
                         <h4>{{i[1]}}</h4>
                         <p>Rs-{{i[5]}}</p>
                     </a></div>
@@ -107,13 +107,13 @@
   <div class="container">
     <div class="header_tex1">
       <h1>Comics</h1>
-      <a href="all-books"> See All <i class="fa fa-angle-right"></i> </a>
+      <a href="all-books" style="font-size: 1.3em; font-weight:bolder;"> See All <i class="fa fa-angle-right"></i> </a>
     </div>
     <div class="slider" id="slider3">
       <div class="slide" id="slide3">
         {% for i in comics %}
         <a href="/book-detail/{{i[0]}}">
-          <img class="item" src="static/assets/book-images/{{i[7]}}" />
+          <img class="item" src="/static/assets/book-images/{{i[7]}}" />
           <h4>{{i[1]}}</h4>
           <p>Rs-{{i[5]}}</p>
         </a>
@@ -130,7 +130,7 @@
             <div class="container-fluid">
                 <div class="row">
                   {% for i in comics %}
-                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="static/assets/book-images/{{i[7]}}">
+                    <div class="col-sm-4"><a href="/book-detail/{{i[0]}}"> <img class="item" src="/static/assets/book-images/{{i[7]}}">
                         <h4>{{i[1]}}</h4>
                         <p>Rs-{{i[5]}}</p>
                     </a></div>
@@ -143,8 +143,8 @@
 </section>
 {% endblock %} {% block scripts %}
 
-<script src="static/assets/js/slider.js"></script>
-<script src="static/assets/js/nav.js"></script>
+<script src="/static/assets/js/slider.js"></script>
+<script src="/static/assets/js/nav.js"></script>
 
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>

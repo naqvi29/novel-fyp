@@ -22,6 +22,7 @@
 
     <link rel="stylesheet" href="/static/assets/css/css/style.css">
     <link rel="stylesheet" href="/static/assets/css/css/style.scss">
+    <link rel="stylesheet" href="static/assets/css/3_pages.css">
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     {% endblock %}
@@ -29,10 +30,39 @@
     <section class="headaer_1">
         <div class="container">
             <div class="row">
-                <div class="search-bar">
+                <!-- <div class="search-bar">
                     <input type="text" placeholder="Find Book Search .......">
                     <a href=""> <i class="fa fa-search"></i> </a>
-                </div>
+                </div> -->
+                
+                <form action="/search" method="post" class="search">
+                    <input name="q" class="searchTerm" placeholder="Find Book Search  ..." /><button class="searchButton" type="submit"></button>
+                </form>
+            </div>
+        </div>
+        <div class="container filter-container">
+            <div class="row" class="filter" style="display: block; text-align:center;">
+                <form action="">
+                    <div class="dropdown">
+                        <!-- <label for="Category">Category</label> -->
+                        <select class="cat-all"  onclick="myFunction()" class="dropbtn">
+                            <option class="sel-opt" value="all">All</option>
+                            <option class="sel-opt" value="fiction">Fiction</option>
+                            <option class="sel-opt" value="ccience">Science</option>
+                            <option class="sel-opt" value="comics">Comics</option>
+                            <option class="sel-opt" value="adventure">Adventure</option>
+                            <option class="sel-opt" value="math">Math</option>
+                            <option class="sel-opt" value="urdu">Urdu</option>
+                            <option class="sel-opt" value="islamic">Islamic</option>
+                            <option class="sel-opt" value="tourism">Tourism</option>
+                            <option class="sel-opt" value="programming">Programming</option>
+                            <option class="sel-opt" value="graphic">Graphic</option>
+                        </select>
+                        <input class="cat-all" type="number" placeholder="Price Min">
+                        <input class="cat-all" type="number" placeholder="Price Max">
+                        <button class="cat-apply">Apply Filter</button>
+                      </div>
+                </form>
             </div>
         </div>
         <div class="container">
@@ -111,18 +141,16 @@
                 <a style="text-decoration: none;" href="/book-detail/{{i[0]}}"><h4>{{i[1][:20]}}</h4></a>
                 <p>Rs-{{i[5]}}</p>
                 <input hidden type="number" step="any"  id="price-{{i[0]}}" value="{{i[5]}}">
-                {% if loggedin %}
-                <!-- <span onclick="addtocart(i={{i[0]}})"><i class="fa fa-bag-shopping"></i></span> -->
+                <!-- {% if loggedin %}
                 <p class="flex flex-wrap flex-center flex-gap-xxs">
-                    <!-- <a class="cd-article-link" href="https://codyhouse.co/gem/add-to-cart-interaction">📝 View Tutorial</a> -->
                     <a href="#0" class=" js-cd-add-to-cart" data-id="{{i[0]}}" data-price="{{i[5]}}" data-title="{{i[1]}}" data-img="{{i[7]}}"><i class="fa fa-bag-shopping"></i></a>
                 </p>
-                <!-- <span class="add-to-cart"><i class="fa fa-bag-shopping"></i></span>
-                <span class="add-to-wish"><i class="fa fa-heart"></i></span> -->
                 {% else %} 
                 <span onclick="loginE()"><i class="fa fa-bag-shopping"></i></span>
-                <!-- <span onclick="loginE()" class="add-to-wish"><i class="fa fa-heart"></i></span> -->
-                {% endif %}
+                {% endif %} -->
+                <p class="flex flex-wrap flex-center flex-gap-xxs">
+                    <a href="#0" class=" js-cd-add-to-cart" data-id="{{i[0]}}" data-price="{{i[5]}}" data-title="{{i[1]}}" data-img="{{i[7]}}"><i class="fa fa-bag-shopping"></i></a>
+                </p>
             </div>
             {% endfor %}
         </div>

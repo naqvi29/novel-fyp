@@ -1,153 +1,260 @@
-{% extends 'layout.html' %} {% block title %}Orders{% endblock %} {% block head
-%}
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="/static/assets/css/style2.css" />
-<link rel="stylesheet" href="/static/assets/css/navbar.css" />
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-  integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
-<link rel="stylesheet" href="/static/assets/css/product.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
+{% extends 'layout2.html' %} 
+{% block title %}Orders{% endblock %} 
+
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/navbar.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/static/assets/css/product.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.1.3/iscroll.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.22/webfontloader.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.22/webfontloader.js"></script>
 
-<link rel="stylesheet" href="/static/assets/css/css/style.css" />
-<link rel="stylesheet" href="/static/assets/css/css/style.scss" />
-<!-- resp table css  -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bullframe.css" />
-<!-- Link Swiper's CSS -->
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
-/>
-{% endblock %} {% block content %}
+    <link rel="stylesheet" href="/static/assets/css/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/css/style.scss"> -->
+    <link rel="stylesheet" href="/static/assets/css/rateModal.css">
+    <link rel="stylesheet" href="/static/assets/css/rate.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bullframe.css"> -->
+    <link rel="stylesheet" href="/static/assets/css/3_pages.css">
+    <!-- data tables  -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <style>
+      *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #f9db9f !important;
+        }
+        
+        .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+            width: 100%;
+            /* padding-right: var(--bs-gutter-x,.75rem);
+            padding-left: var(--bs-gutter-x,.75rem); */
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .container {
+            width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+            padding-right: 50px;
+            padding-left: 50px;
+        }
+        * {
+            font-family: 'Varela Round', sans-serif;
+            color: #3a2d2d;
+        }
+    </style>
+    {% endblock %}
+    {% block content %} 
+    <!-- Rate Modal start  -->
+<div id="myModal" class="modal">
 
-<section class="headaer_1">
-  <div class="container">
-    <div class="row">
-      <div class="search-bar">
-        <input id="q" type="text" placeholder="Find Book Search ......." />
-        <a onclick="searchF()"> <i class="fa fa-search"></i> </a>
-      </div>
+    <!-- Modal content -->
+<div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Rate your order</h2>
+    </div>
+    <div class="modal-body">
     </div>
   </div>
-  <div class="container">
-    <div class="header_tex1">
-      <h1>Orders Pending!</h1>
-    </div>
+  
   </div>
-  <div class="container" style="text-align: center" >
-    <!-- table  -->
-
-    <table class="bf-table" style="overflow-x:auto;">
-      <!-- <caption>
-				Caption goes here
-			</caption> -->
-      <thead>
-        <tr>
-          <th>Header 1</th>
-          <th>Header 2</th>
-          <th>Header 3</th>
-          <th>Header 4</th>
-          <th>Header 5</th>
-          <th>Header 6</th>
-          <th>Header 7</th>
-          <th>Header 8</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>row1_cell1</td>
-          <td>row1_cell2</td>
-          <td>row1_cell3</td>
-          <td>row1_cell4</td>
-          <td>row1_cell5</td>
-          <td>row1_cell6</td>
-          <td>row1_cell7</td>
-          <td>row1_cell8</td>
-        </tr>
-        <tr>
-          <td>row2_cell1</td>
-          <td>row2_cell2</td>
-          <td>row2_cell3</td>
-          <td>row2_cell4</td>
-          <td>row2_cell5</td>
-          <td>row2_cell6</td>
-          <td>row2_cell7</td>
-          <td>row2_cell8</td>
-        </tr>
-        <tr>
-          <td>row3_cell1</td>
-          <td>row3_cell2</td>
-          <td>row3_cell3</td>
-          <td>row3_cell4</td>
-          <td>row3_cell5</td>
-          <td>row3_cell6</td>
-          <td>row3_cell7</td>
-          <td>row3_cell8</td>
-        </tr>
-        <tr>
-          <td>row4_cell1</td>
-          <td>row4_cell2</td>
-          <td>row4_cell3</td>
-          <td>row4_cell4</td>
-          <td>row4_cell5</td>
-          <td>row4_cell6</td>
-          <td>row4_cell7</td>
-          <td>row4_cell8</td>
-        </tr>
-        <tr>
-          <td>row5_cell1</td>
-          <td>row5_cell2</td>
-          <td>row5_cell3</td>
-          <td>row5_cell4</td>
-          <td>row5_cell5</td>
-          <td>row5_cell6</td>
-          <td>row5_cell7</td>
-          <td>row5_cell8</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th>Header 1</th>
-          <th>Header 2</th>
-          <th>Header 3</th>
-          <th>Header 4</th>
-          <th>Header 5</th>
-          <th>Header 6</th>
-          <th>Header 7</th>
-          <th>Header 8</th>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-</section>
-
-{% endblock %} {% block scripts %}
-<script>
-  /* Code by CodingTuting.Com */
-  function footerToggle(footerBtn) {
-    Rs - footerBtn.toggleClass("btnActive");
-    Rs - footerBtn.next().toggleClass("active");
-  }
-</script>
-<script>
-  function searchF() {
-    q = document.getElementById("q").value;
-
-    console.log(q);
-    window.location.href = "/search/" + q;
-  }
-</script>
-{% endblock %}
+    <!-- Rate Modal end -->
+    <section class="headaer_1">
+        <div class="container"  style="    background-color: white;
+        border-radius: 2%;
+        min-width: fit-content;">
+            <div class="header_tex1">
+                <h1>Orders Pending!</h1>
+            </div>
+            <div class="bf-table-responsive bf-table-responsive--zebra">
+                <table id="example" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th scope="col">OrderID</th>
+                      <th scope="col">BookID</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">City</th>
+                      <th scope="col">Delivery Address</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Delivery Instructions</th>
+                      <th scope="col">Delivery Method</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                    {% for i in pending_orders %}
+                    <tr>
+                      <td scope="row">{{i[0]}}</td>
+                      <td>{{i[2]}}</td>
+                      <td>{{i[4]}}</td>
+                      <td>{{i[7]}}</td>
+                      <td>{{i[8]}}</td>
+                      <td>{{i[9]}}</td>
+                      <td>{{i[10]}}</td>
+                      <td>{{i[11]}}</td>
+                      <td>{{i[12]}}</td>
+                      <td>{{i[13]}}</td>
+                      <td>{{i[5]}}</td>
+                      <td>
+                        <a href="/deliver-order/{{i[0]}}"
+                          ><button style="color: black;
+                          background: greenyellow;
+                          border-radius: 14%;
+                          padding-left: 18%;
+                          padding-right: 18%;
+                          padding-bottom: 5%;
+                          padding-top: 5%;" class="table-btn">Mark as Delivered</button></a
+                        >
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+            <br>
+            <br>
+            <div class="header_tex1">
+                <h1>Orders Delivered!</h1>
+            </div>
+            <div class="bf-table-responsive bf-table-responsive--zebra">
+                <table  id="example2" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>OrderID</th>
+                      <th>BookID</th>
+                      <th>Price</th>
+                      <th>City</th>
+                      <th>Delivery Address</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Delivery Instructions</th>
+                      <th scope="col">Delivery Method</th>
+                      <th>Status</th>
+                      <th>Rating</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in delivered_orders %}
+                    <tr>
+                      <td>{{i[0]}}</td>
+                      <td>{{i[2]}}</td>
+                      <td>{{i[4]}}</td>
+                      <td>{{i[7]}}</td>
+                      <td>{{i[8]}}</td>
+                      <td>{{i[9]}}</td>
+                      <td>{{i[10]}}</td>
+                      <td>{{i[11]}}</td>
+                      <td>{{i[12]}}</td>
+                      <td>{{i[13]}}</td>
+                      <td>{{i[5]}}</td>
+                      {% if not i[6] %}
+                      <td>Not Rated Yet</td>
+                      {% else %}
+                      <td>{{i[6]}}</td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  </table>
+            </div>
+            <br>
+            <br>
+            <div class="header_tex1">
+                <h1>My Orders</h1>
+            </div>
+            <div class="bf-table-responsive bf-table-responsive--zebra">
+              <table id="example3" class="display" style="width:100%">
+                <thead>
+                  <tr>
+                    <th scope="col">OrderID</th>
+                    <th scope="col">BookID</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Delivery Address</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Delivery Instructions</th>
+                    <th scope="col">Delivery Method</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  {% for i in my_orders %}
+                  <tr>
+                    <td scope="row">{{i[0]}}</td>
+                    <td>{{i[2]}}</td>
+                    <td>{{i[4]}}</td>
+                    <td>{{i[7]}}</td>
+                    <td>{{i[8]}}</td>
+                    <td>{{i[9]}}</td>
+                    <td>{{i[10]}}</td>
+                    <td>{{i[11]}}</td>
+                    <td>{{i[12]}}</td>
+                    <td>{{i[13]}}</td>
+                    <td>{{i[5]}}</td>
+                    <td>
+                      <a href="/deliver-order/{{i[0]}}"
+                        ><button style="color: black;
+                        background: greenyellow;
+                        border-radius: 14%;
+                        padding-left: 18%;
+                        padding-right: 18%;
+                        padding-bottom: 5%;
+                        padding-top: 5%;" class="table-btn">Mark as Delivered</button></a
+                      >
+                    </td>
+                    <td><a onclick="return confirm('Are you sure you want to cancel this order?');" href="/cancel-order/{{i[0]}}"><button class="table-btn" style="color: white;
+                      background: red;
+                      border-radius: 14%;
+                      padding-left: 18%;
+                      padding-right: 18%;
+                      padding-bottom: 5%;
+                      padding-top: 5%;">Cancel</button></a></td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <script src="/static/assets/js/js/rateModal.js"></script>
+        <script>
+         $(document).ready(function () {
+            $('#example').DataTable();
+        });
+         $(document).ready(function () {
+            $('#example2').DataTable();
+        });
+         $(document).ready(function () {
+            $('#example3').DataTable();
+        });
+        </script>
+    {% endblock %}

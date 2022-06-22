@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}{% endblock %}
+
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="/static/assets/favicons/android-chrome-512x512.png">
+    <link rel="icon" type="image/x-icon" href="/static/assets/favicons/apple-touch-icon.png">
+</head>
+
+<body>
+    <section class="header_nav">
+        <nav class="navbar">
+            <div class="navbar-container container">
+                <input type="checkbox" name="" id="">
+                <div class="hamburger-lines">
+                    <span class="line line1"></span>
+                    <span class="line line2"></span>
+                    <span class="line line3"></span>
+                </div>
+                <div class="nav-header">
+                    <a href="/" class="logo">
+                        <img src="/static/assets/images/white-logo.png" alt="">
+                    </a>
+                </div>
+                <ul class="menu-items">
+                    <li><a class="btn" href="/" class="active">Home</a></li>
+                    <li class="dropdown">
+                        <a class="dropbtn btn">Category <i class="fa fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="/all-books">All </a>
+                            <a href="/books-by-category/fiction">Fiction </a>
+                            <a href="/books-by-category/science">Science</a>
+                            <a href="/books-by-category/comics">Comics</a>
+                            <a href="/books-by-category/adventure">Adventure</a>
+                            <a href="/books-by-category/math">Math</a>
+                            <a href="/books-by-category/urdu">Urdu</a>
+                            <a href="/books-by-category/islamic">Islamic
+                            </a>
+                            <a href="/books-by-category/tourism">Tourism</a>
+                            <a href="/books-by-category/programming">Programming</a>
+                            <a href="/books-by-category/graphic-design">Graphic design
+                            </a>
+
+                        </div>
+                    </li>   
+                    {% if loggedin %}
+                        {% if  type =='user' %}
+                            <li><a class="btn" href="/view-user-orders/{{userid}}">Orders</a></li>      
+                        {% elif type=='shopkeeper' %}
+                            <li><a class="btn"  href="/view-shopkeeper-orders/{{userid}}">Orders</a></li> 
+                            <li><a class="btn" href="/my-books">My Books</a></li>  
+                            <li><a class="btn" href="/add-book">Add Book</a></li>
+                        {% endif %}
+                    {% endif %}
+                    <li><a class="btn" href="/about-us">About</a></li>   
+
+                    <!-- <li><a class="btn" href="/our-vision">Vision</a></li> -->
+                    <li><a class="btn" href="/contact-us">Contact Us</a></li>
+
+                    
+                    {% if loggedin %}
+                    {% if type =='admin' %}   
+                    <li><a class="btn" href="/admin-dashboard">Admin Dashboard</a></li>      
+                    {% endif %}
+                    {% endif %}
+
+                    {% if loggedin %}               
+                    <li><a class="btn" href="/logout">Logout</a></li>
+                    <li style="margin-left:2rem;"><a class="btn dangare" href="/profile">{{username}}</a></li>                                        
+                    {% else %} 
+                    <!-- <li><a class="btn" href="/register">Registration</a></li> -->
+                    <li style="margin-left:2rem;"><a class="btn" href="/login">Sign In</a></li>
+                    {% endif %}
+
+
+                </ul>
+                <!-- <h1 class="logo">Navbar</h1> -->
+            </div>
+        </nav>
+        <!-- </div>
+        </div> -->
+    </section>
+    {% block content %}{% endblock %}
+
+
+
+    {% block scripts %}{% endblock %}
+
+</body>
+
+</html>

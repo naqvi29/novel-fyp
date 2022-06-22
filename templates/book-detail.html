@@ -24,82 +24,100 @@
 
   <link rel="stylesheet" href="/static/assets/css/css/style.css">
   <link rel="stylesheet" href="/static/assets/css/css/style.scss">
+  <link rel="stylesheet" href="/static/assets/css/3_pages.css">
+  <link rel="stylesheet" href="/static/assets/css/book-detail.css">
   {% endblock %}
   {% block content %}
 
   <section class="header_book">
     <div class="container">
-      <div class="card-wrapper">
-        <div class="card-p">
-          <div class="img_p">
-            <img src="/static/assets/book-images/{{book[7]}}" alt="">
+      <!--   https://www.jerecho.com/codepen/nike-product-page/ -->
+      <div class="product-image">
+        <!-- <img src="assets/images/instagram-01.jpg" alt="" class="product-logo"> -->
+        <img src="/static/assets/book-images/{{book[7]}}" alt="" class="product-pic">
+
+      </div>
+
+      <div class="product-details">
+        <header>
+          <h3 class="title">{{book[1]}}</h3>
+          <span class="colorCat">Author: <span style="color: red;">{{book[2]}}</span></span></span>     
+          <div class="colorCat">Publisher: <span style="color: red;">{{book[2]}}</span></div>
+          <div class="colorCat">ShopKeeper: <span style="color: red;">{{book[3]}}</span></div>
+          <div class="colorCat">ISBN#:<span style="color: red;">{{book[12]}}</span></div>
+          <div class="colorCat">Phone#:<span style="color: red;">{{book[13]}}</span></div>
+          <div class="colorCat">Address: <span style="color: red;">{{book[14]}}</span></div>
+          <div class="colorCat">Discount: <span style="color: red;" id="disc">{{book[15]}}%</span></div>
+          <div class="price">
+            <!-- <span class="before">$150</span> -->
+            <span class="current">Rs- <span id="fullprice" class="current">{{book[5]}}</span></span> {% if book[15] %}<span class="current2">Rs- <span id="discount"></span></span>{% endif %}
           </div>
-          <div class="product-content">
-            <p class="new-price">Title: <span>{{book[1]}}</span></p>
-            <p class="new-price">Author: <span>{{book[2]}}</span></p>
-
-            <div class="product-rating">
-              {% if book[9] == 1 %}
-              <i class="fas fa-star"></i>
-              <span>{{book[9]}}</span>
-              {% elif book[9] == 2 %}
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <span>{{book[9]}}</span>
-              {% elif book[9] == 3 %}
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <span>{{book[9]}}</span>
-              {% elif book[9] == 4 %}
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <span>{{book[9]}}</span>
-              {% elif book[9] == 5 %}
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <span>{{book[9]}}</span>
-              {% else %}
-              <i style="color:grey" class="fas fa-star"></i>
-              <i style="color:grey" class="fas fa-star"></i>
-              <i style="color:grey" class="fas fa-star"></i>
-              <i style="color:grey" class="fas fa-star"></i>
-              <i style="color:grey" class="fas fa-star"></i>
-              <span>N/A</span>
-              {% endif %}
-            </div>
-
-            <div class="product-price">
-              <p class="new-price">Price: <span>Rs-{{book[5]}}</span></p>
-            </div>
-
-            <div class="product-detail">
-              <p>{{book[8][:1000]}}</p>
-            </div>
-
-            <div class="purchase-info">
-              
-              {% if loggedin %}
-              <p class="flex flex-wrap flex-gap-xxs">
-                  <a href="#0" class="btn js-cd-add-to-cart" data-id="{{book[0]}}" data-price="{{book[5]}}" data-title="{{book[1]}}" data-img="{{book[7]}}"><i class="fa fa-bag-shopping"></i>Add to cart</a>
-              </p>
-              {% else %}
-              <p class="flex flex-wrap flex-gap-xxs">
-                  <a class="btn" onclick="loginE()"></i>Add to cart</a>
-              </p>
-              {% endif %}
-
-            </div>
+          <!-- <div class="rate">
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+          </div> -->
+          <div class="rate">
+            {% if book[9] == 1 %}
+            <a href="#!"  class="active">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            {% elif book[9] == 2 %}
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            {% elif book[9] == 3 %}
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            {% elif book[9] == 4 %}
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!">★</a>
+            {% elif book[9] == 5 %}
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            <a href="#!" class="active">★</a>
+            {% else %}
+            <a href="#!" >★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            <a href="#!">★</a>
+            {% endif %}
+        </header>
+        <article>
+          <h5>Description</h5>
+          <p>{{book[8][:2000]}}</p>
+        </article>
+        <div class="controls">
 
 
+          <div class="purchase-info qty">
+            <h5>qty</h5>
+            <input type="number" min="0" value="1">
           </div>
         </div>
+        <div class="footer">
+          <button class=" btn js-cd-add-to-cart" type="button" data-id="{{book[0]}}" data-price="{{book[5]}}" data-title="{{book[1]}}" data-img="{{book[7]}}">
+            <img src="http://co0kie.github.io/codepen/nike-product-page/cart.png" alt="">
+            <span>add to cart</span>
+          </button>
+        </div>
       </div>
+
     </div>
   </section>
   <div class="cd-cart cd-cart--empty js-cd-cart">
@@ -126,8 +144,11 @@
               <div id="chckout"></div>
   
               <footer class="cd-cart__footer">
+                <!-- <div style="    text-align: center;
+                background-color: black;
+                color: white;">Self Pickup<input style="margin-left: 1rem;" type="checkbox" placeholder="self pickup"></div> -->
                   <a href="#0" class="cd-cart__checkout">
-            <em onclick="checkoutt()">Checkout - Rs<span>0</span>
+            <em onclick="checkoutt()" style="font-size: 1rem;">Checkout - Rs<span>0</span>
               <svg class="icon icon--sm" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><line stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="3" y1="12" x2="21" y2="12"/><polyline stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="15,6 21,12 15,18 "/></g>
               </svg>
             </em>
@@ -182,4 +203,21 @@
   
     <script src="/static//assets/js/js/main.js"></script>
     <script src="/static//assets/js/js/util.js"></script>
+
+    <script>
+      full_price_span = document.getElementById("fullprice");
+      discount_span = document.getElementById("disc");
+      full_price = full_price_span.innerHTML;
+      discount  = discount_span.innerHTML;
+      discount = discount.replace('%','');
+      console.log(full_price);
+      console.log(discount);
+      discount = parseFloat(discount)
+      full_price = parseFloat(full_price)
+      percent = full_price / discount;
+      cut_price = full_price + percent;
+      console.log("cutprice"); 
+      console.log(cut_price); 
+      document.getElementById("discount").innerHTML = cut_price;
+    </script>
     {% endblock %}

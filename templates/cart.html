@@ -25,15 +25,16 @@
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <link rel="stylesheet" href="/static/assets/css/form.css">
+    <link rel="stylesheet" href="/static/assets/css/3_pages.css">
     {% endblock %}
     {% block content %} 
     <section class="headaer_1">
         <div class="container">
-            <div class="row">
-                <div class="search-bar">
-                    <input type="text" placeholder="Find Book Search .......">
-                    <a href=""> <i class="fa fa-search"></i> </a>
-                </div>
+            <div class="row">                
+                <form action="/search" method="post" class="search">
+                    <input name="q" class="searchTerm" placeholder="Find Book Search  ..." /><button class="searchButton" type="submit"></button>
+                  </form>
+              </div>
             </div>
         </div>
         <div class="container">
@@ -64,7 +65,7 @@
                     <tr>
                         <th></th>
                         <th>Sub Total</th>
-                        <th>{{sub_total}}</th>
+                        <th>Rs- <span id="sub_total">{{sub_total}}</span></th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -85,8 +86,9 @@
                   <option value="lahore" selected>Lahore</option>
                   <option value="islamabad" selected>Islamabad</option>
                 </select>      
-                <select id="job" name="method">
-                  <option value="" selected>Home Delivery</option>
+                <select id="delivery_method" onchange="getOption()" name="delivery_method">
+                  <option value="delivery">Home Delivery (Rs-200)</option>
+                  <option value="self" selected>Self Pickup</option>
                 </select>      
                 </fieldset>
                 <fieldset>
@@ -108,6 +110,21 @@
             Rs-(footerBtn).toggleClass("btnActive");
             Rs-(footerBtn).next().toggleClass("active");
         }
+    </script>
+    <script>
+        function getOption() {
+//   console.log(document.getElementById('delivery_method').value);
+var defalut_subTotal = document.getElementById("sub_total").innerHTML;
+defalut_subTotal = parseFloat(defalut_subTotal)
+  if (document.getElementById('delivery_method').value == "delivery"){
+    subTotal = defalut_subTotal + 200;
+    document.getElementById("sub_total").innerHTML = subTotal;
+  }else if (document.getElementById('delivery_method').value == "self"){
+    subTotal = defalut_subTotal - 200;
+    document.getElementById("sub_total").innerHTML = subTotal;
+  }
+
+}
     </script>
     
     {% endblock %}

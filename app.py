@@ -4,6 +4,7 @@ import os
 from os.path import join, dirname, realpath
 from werkzeug.utils import secure_filename
 from PIL import Image
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 mysql = MySQL()
@@ -16,6 +17,19 @@ app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 # app.config['MYSQL_DATABASE_DB'] = 'novel-fyp'
 # app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 mysql.init_app(app)
+
+
+# Mail server config.
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'bookkingdom172@gmail.com'
+# app.config['MAIL_PASSWORD'] = 'Book12345'
+app.config['MAIL_PASSWORD'] = 'fbijqpcqyeecdnam'
+app.config['MAIL_DEFAULT_SENDER'] = ('bookkingdom172@gmail.com')
+mail = Mail(app)
 
 # configure secret key for session protection)
 app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
@@ -67,8 +81,9 @@ def books_by_category(category):
     else:
         return render_template("books-by-category.html",books=books,category=category,loggedin=False)
 
-@app.route("/search/<string:q>")
-def search(q):
+@app.route("/search", methods=['GET','POST'])
+def search():
+    q = request.form.get("q")
     conn = mysql.connect()
     cursor =conn.cursor()
     cursor.execute("SELECT * FROM books WHERE title Like '%{text:}%';".format(text=q))
@@ -149,11 +164,16 @@ def add_book():
             if request.method == 'POST':
                 title = request.form.get("title")
                 author = request.form.get("author")
+                publisher = request.form.get("publisher")
+                isbn = request.form.get("isbn")
                 description = request.form.get("description")
                 category = request.form.get("category")
                 price = float(request.form.get("price"))
                 quantity = request.form.get("quantity")
-                publisher = session['name']
+                phone = request.form.get("phone")
+                address = request.form.get("address")
+                discount = request.form.get("discount")
+                added_by = session['name']
                 publisher_id =session['userid']
                 image = request.files["image"]
                 rating = None
@@ -167,7 +187,7 @@ def add_book():
                     newimage.save(os.path.join(BOOK_IMAGES, str(filename)), quality=95)
                     conn = mysql.connect()
                     cursor =conn.cursor()
-                    cursor.execute("INSERT INTO books (title, author, publisher,publisher_id,category,price,quantity,image,description,rating) VALUES (%s, %s,%s, %s,%s, %s,%s, %s, %s, %s);",(title,author,publisher,publisher_id,category,price,quantity,filename,description,rating))
+                    cursor.execute("INSERT INTO books (title, author, added_by,publisher_id,category,price,quantity,image,description,rating,publisher,isbn,phone,address,discount) VALUES (%s, %s,%s, %s,%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s);",(title,author,added_by,publisher_id,category,price,quantity,filename,description,rating,publisher,isbn,phone,address,discount))
                     conn.commit()
                     return redirect(url_for('index'))
                 else:
@@ -291,12 +311,14 @@ def cart(product_ids):
             address = request.form['address']
             del_ins = request.form['del_ins']
             city = request.form['city']
+            delivery_method = request.form['delivery_method']
             print(product_ids)
             print(name)
             print(email)
             print(phone)
             print(address)
             print(del_ins)
+            print(delivery_method)
             # fetch book data 
             user_id = session['userid']
             sub_total = 0
@@ -309,8 +331,13 @@ def cart(product_ids):
                 book_id = book[0]
                 publisher_id = book[10]
                 price = book[5]
-                cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins))
-                conn.commit()
+                if delivery_method == "delivery":
+                    price = price+200
+                    cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
+                    conn.commit()
+                else:
+                    cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
+                    conn.commit()
             return redirect(url_for("order_placed"))
         else:
             products = []
@@ -325,38 +352,93 @@ def cart(product_ids):
                 products.append(product)
             return render_template("cart.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'],products=products,sub_total=sub_total,product_ids=product_ids)
     else:
-        return "Please Login First!"
+        if request.method == 'POST':
+            product_ids = request.form['product_ids']
+            product_ids = product_ids.split(",")
+            name = request.form['name']
+            email = request.form['email']
+            phone = request.form['phone']
+            address = request.form['address']
+            del_ins = request.form['del_ins']
+            city = request.form['city']
+            delivery_method = request.form['delivery_method']
+            print(product_ids)
+            print(name)
+            print(email)
+            print(phone)
+            print(address)
+            print(del_ins)
+            print(delivery_method)
+            # fetch book data 
+            user_id =0
+            sub_total = 0
+            for i in product_ids:
+                print(i)
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("SELECT * from books where id=%s",(i))
+                book = cursor.fetchone()
+                book_id = book[0]
+                publisher_id = book[10]
+                price = book[5]
+                if delivery_method == "delivery":
+                    price = price+200
+                    cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
+                    conn.commit()
+                cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
+                conn.commit()
+            return redirect(url_for("order_placed"))
+        else:
+            products = []
+            productids = product_ids.split(",")
+            sub_total = 0
+            for i in productids:
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("SELECT * from books where id=%s",(int(i)))
+                product = cursor.fetchone()
+                sub_total = sub_total+float(product[5])
+                products.append(product)
+            return render_template("cart.html",loggedin=False,username="Guest",userid=0,type="Guest",products=products,sub_total=sub_total,product_ids=product_ids)
 
 @app.route("/order-placed")
 def order_placed():
     if 'loggedin' in session:
         return render_template("order-placed.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
     else:
-        return "Please Login First!"
+        return render_template("order-placed.html",loggedin=False,username="Guest",userid=0,type="Guest")
 
 @app.route("/view-user-orders/<int:userid>")
 def view_user_orders(userid):
     if 'loggedin' in session:
-        conn = mysql.connect()
-        cursor =conn.cursor()
-        cursor.execute("SELECT * from orders where user_id=%s and status='pending'",(userid))
-        pending_orders = cursor.fetchall()
-        cursor.execute("SELECT * from orders where user_id=%s and status='delivered'",(userid))
-        delivered_orders = cursor.fetchall()
-        return render_template("view-user-orders.html",pending_orders=pending_orders,delivered_orders=delivered_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+        if session['type'] == 'user':
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("SELECT * from orders where user_id=%s and status='pending'",(userid))
+            pending_orders = cursor.fetchall()
+            cursor.execute("SELECT * from orders where user_id=%s and status='delivered'",(userid))
+            delivered_orders = cursor.fetchall()
+            return render_template("view-user-orders.html",pending_orders=pending_orders,delivered_orders=delivered_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+        else:
+            return "Please Login First as user account!"
     else:
         return "Please Login First!"
 
 @app.route("/view-shopkeeper-orders/<int:userid>")
 def view_shopkeepers_orders(userid):
     if 'loggedin' in session:
-        conn = mysql.connect()
-        cursor =conn.cursor()
-        cursor.execute("SELECT * from orders where publisher_id=%s and status='pending'",(userid))
-        pending_orders = cursor.fetchall()
-        cursor.execute("SELECT * from orders where publisher_id=%s and status='delivered'",(userid))
-        delivered_orders = cursor.fetchall()
-        return render_template("view-shopkeeper-orders copy.html",pending_orders=pending_orders,delivered_orders=delivered_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+        if session['type'] == 'shopkeeper':
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("SELECT * from orders where publisher_id=%s and status='pending' and user_id<>%s",(userid,userid))
+            pending_orders = cursor.fetchall()
+            cursor.execute("SELECT * from orders where publisher_id=%s and status='delivered'",(userid))
+            delivered_orders = cursor.fetchall()
+            cursor.execute("SELECT * from orders where status='pending' and user_id=%s",(userid))
+            my_orders = cursor.fetchall()
+            return render_template("view-shopkeeper-orders.html",pending_orders=pending_orders,delivered_orders=delivered_orders,my_orders=my_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+        else:
+            return "Please Login First as shopkeeper account!"
     else:
         return "Please Login First!"
 
@@ -383,6 +465,12 @@ def rate_order(id):
             cursor =conn.cursor()
             cursor.execute("UPDATE orders SET rating=%s WHERE order_id=%s",(rate,id))
             conn.commit()
+            # now rate book            
+            cursor.execute("SELECT * from orders where order_id=%s",(id))
+            order = cursor.fetchone()
+            book_id = order[2]
+            cursor.execute("UPDATE books SET rating=%s WHERE id=%s",(rate,book_id))
+            conn.commit()
             return redirect(url_for("view_user_orders",userid=session['userid']))
         else:
             return "Please Login First as user!"
@@ -398,8 +486,14 @@ def cancel_order(id):
             cursor.execute("DELETE FROM orders WHERE order_id=%s",(id))
             conn.commit()
             return redirect(url_for("view_user_orders",userid=session['userid']))
+        elif session['type'] == 'shopkeeper':
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("DELETE FROM orders WHERE order_id=%s",(id))
+            conn.commit()
+            return redirect(url_for("view_shopkeepers_orders",userid=session['userid']))
         else:
-            return "Please Login First as shopkeeper!"
+            return "Please Login First as customer!"
     else:
         return "Please Login First!"
 
@@ -521,12 +615,198 @@ def about_us():
     else:
         return render_template("about-us.html",loggedin=False)
 
-@app.route("/contact-us")
+@app.route("/contact-us",methods=['GET','POST'])
 def contact_us():
-    if 'loggedin' in session:    
-        return render_template("contact-us.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    if 'loggedin' in session:   
+        if request.method=="POST": 
+            name=request.form.get("name") 
+            email=request.form.get("email") 
+            message=request.form.get("message") 
+            msg = Message("BookKingdom | New Contact",sender='bookkingdom172@gmail.com', recipients=["bookkingdom172@gmail.com"])
+            msg.html = "<p><strong>Name</strong></p><p>"+name+"</p><br><p><strong>email</strong></p><p>"+email+"</p><br><p><strong>message</strong></p><p>"+message+"</p>"
+            mail.send(msg)
+            return render_template("contact-us.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'],msg="sent")
+        else:
+            return render_template("contact-us.html",loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    else:
+        if request.method=="POST":
+            name=request.form.get("name")  
+            email=request.form.get("email") 
+            message=request.form.get("message") 
+            msg = Message("BookKingdom | New Contact",sender='bookkingdom172@gmail.com', recipients=["bookkingdom172@gmail.com"])
+            msg.html = "<p><strong>Name</strong></p><p>"+name+"</p><br><p><strong>email</strong></p><p>"+email+"</p><br><p><strong>message</strong></p><p>"+message+"</p>"
+            mail.send(msg)
+            return render_template("contact-us.html",loggedin=False,msg="sent")
+        else:
+            return render_template("contact-us.html",loggedin=False)
+
+@app.route("/forgot-password", methods=['GET','POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get("email")
+        conn = mysql.connect()
+        cursor =conn.cursor()
+        cursor.execute("SELECT * from users where email=%s",email)
+        data = cursor.fetchone()
+        if not data:
+            return render_template("forgot-password.html",error="Email Address Not Registered!")
+        msg = Message("BookKingdom",sender='bookkingdom172@gmail.com', recipients=[email])
+        # msg = Message('Hello from the other side!', sender =   'bookkingdom172@gmail.com', recipients = ['mali29april@gmail.com'])
+        msg.html = "<p>Hello,</p><p>we've received a forget password request for your account</p><p>so here is the your password <strong>"+data[2]+"</strong></p><p>If you didn't request this, please let us know immediately by replying to this email.</p><br><p>The BookKingdom Team</p>"
+        mail.send(msg)
+        return render_template("forgot-password.html",success="Your Password Has been sent to your email address!")
+        
+
+    else:
+        return render_template("forgot-password.html")
+
+@app.route("/profile",methods=['GET','POST'])
+def profile():
+    if 'loggedin' in session:   
+        if request.method == 'POST':
+            f_name = request.form.get("f_name")
+            l_name = request.form.get("l_name")
+            email = request.form.get("email")
+            password = request.form.get("password")
+            gender = request.form.get("gender")
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("UPDATE users SET first_name=%s,last_name=%s,email=%s,password=%s ,gender=%s WHERE userid=%s",(f_name,l_name,email,password,gender,session['userid']))
+            conn.commit()
+            return redirect(url_for("profile"))
+        conn = mysql.connect()
+        cursor =conn.cursor()
+        cursor.execute("SELECT * from users where userid=%s",session['userid'])
+        data = cursor.fetchone() 
+        return render_template("profile.html",data=data,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
     else:
         return render_template("contact-us.html",loggedin=False)
+
+
+# ----------------------------------------- MOBILE APIS -------------------------------------------------
+
+@app.route("/register-user-api", methods=['POST'])
+def register_api():
+    try:
+        if request.method == 'POST':
+            if request.is_json:            
+                data = request.get_json()
+                email = data["email"]
+                password = data["password"]
+                first_name = data["first_name"]
+                last_name = data["last_name"]
+                gender = data["gender"]
+                type = "user"
+                if not email or not password  or not first_name or not last_name or not gender:
+                    return jsonify({"success":False,"error":"Oops! Something is missing"})
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("SELECT * from users where email=%s",(email))
+                exist = cursor.fetchone()
+                if exist:
+                    return jsonify({"success":False,"error":"Email address already registered"})
+                cursor.execute("INSERT INTO users (email, password, first_name,last_name,gender,type) VALUES (%s,%s, %s, %s,%s, %s);",(email,password,first_name,last_name,gender,type))
+                conn.commit()
+                cursor.execute("SELECT * from users where email=%s",(email))
+                data = cursor.fetchone()
+                return jsonify({"success":True,"status":"Registered Successfully!","data":data})
+            else:
+                return jsonify({"success":False,"error":"Invalid Json!"})
+        else:
+            return jsonify({"success":False,"error":"Invalid Request Type!"})
+    except Exception as e:
+        return jsonify({"success":False,"error":str(e)})
+
+
+@app.route("/login-user-api", methods=['POST'])
+def login_api():
+    try:
+        if request.method == 'POST':
+            if request.is_json:            
+                data = request.get_json()
+                email = data["email"]
+                password = data["password"]
+                if not email or not password:
+                    return jsonify({"success":False,"error":"Oops! Something is missing!"})
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("SELECT * from users where email=%s",(email))
+                account = cursor.fetchone()
+                if not account:
+                    return jsonify({"success":False,"error":"Invalid Email Address!"})
+                if password == account[2]:                
+                    return jsonify({"success":True,"status":"Login Success!", "data":account})
+                else:
+                    return jsonify({"success":False,"error":"Invalid Password!"})
+            else:
+                    return jsonify({"success":False,"error":"Invalid Json!"})
+        else:
+            return jsonify({"success":False,"error":"Invalid Request Type!"})
+    except Exception as e:
+        return jsonify({"success":False,"error":str(e)})
+
+
+@app.route("/get-all-books-api")
+def get_all_books_api():
+    try:
+        conn = mysql.connect()
+        cursor =conn.cursor()
+        cursor.execute("SELECT * from books")
+        books = cursor.fetchall()
+        return jsonify({"success":True,"data":books})
+    except Exception as e:
+        return jsonify({"success":False,"error":str(e)})
+
+
+@app.route("/get-books-by-category-api/<string:category>")
+def get_books_by_category_api(category):
+    try:
+        conn = mysql.connect()
+        cursor =conn.cursor()
+        cursor.execute("SELECT * from books where category=%s",category)
+        books = cursor.fetchall()
+        return jsonify({"success":True,"data":books})
+    except Exception as e:
+        return jsonify({"success":False,"error":str(e)})
+
+
+@app.route("/search-api", methods=['GET','POST'])
+def search_api():
+    try:
+        if request.is_json:            
+            data = request.get_json()
+            q = data["keyword"]
+            conn = mysql.connect()
+            cursor =conn.cursor()
+            cursor.execute("SELECT * FROM books WHERE title Like '%{text:}%';".format(text=q))
+            books = cursor.fetchall()
+            if not books:
+                cursor.execute("SELECT * FROM books WHERE category Like '%{text:}%';".format(text=q))
+                books = cursor.fetchall()
+            if not books:
+                cursor.execute("SELECT * FROM books WHERE author Like '%{text:}%';".format(text=q))
+                books = cursor.fetchall()
+            if not books:
+                cursor.execute("SELECT * FROM books WHERE publisher Like '%{text:}%';".format(text=q))
+                books = cursor.fetchall()
+            return jsonify({"success":True,"data":books})
+        else:
+                return jsonify({"success":False,"error":"Invalid Json!"})
+    except Exception as e:
+        return jsonify({"success":False,"error":str(e)})
+
+
+@app.route("/single-book-detail-api/<int:id>")
+def single_book_detail_api(id):
+    try:
+        conn = mysql.connect()
+        cursor =conn.cursor()
+        cursor.execute("SELECT * from books where id=%s",id)
+        book = cursor.fetchone()
+        return jsonify({"success":True,"data":book})
+    except Exception as e:
+        return jsonify({"success":False,"error":str(e)})
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -39,6 +39,9 @@
                             <input id="id_password" type="password" name="password" placeholder="Password" required />
                             <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer; display: inline;"></i>
                         </div>
+                        <div style="size: 0.8rem; margin-bottom: 1rem; margin-top: 1rem;">
+                            <a style="font-size: 0.8rem;"  href="/forgot-password">Forgot Password?</a>
+                        </div>
                         {% if error %}
                         <p class="error">{{error}}</p>
                         {% endif %}
@@ -46,7 +49,7 @@
                       
                        
                         <input class="button" type="submit" value="Sign in" />
-                        <a href="/register" >Register</a>
+                        <a href="/register" ><input disabled class="secondbtn" value="Register" /></a>
                     </form>
                 </div>
             </div>
