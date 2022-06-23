@@ -115,6 +115,23 @@ def all_books():
     else:
         return render_template("all-books.html",books=books,loggedin=False)
 
+@app.route("/filter")
+def filter():
+    category = request.args.get("category")
+    price_min = request.args.get("price-min")
+    price_max = request.args.get("price-max")
+    print(price_min)
+    print(price_max)
+    print(category)
+    conn = mysql.connect()
+    cursor =conn.cursor()
+    cursor.execute("SELECT * from books where category=%s and price > %s and price <%s;",(category,price_min,price_max))
+    books = cursor.fetchall()
+    if 'loggedin' in session:    
+        return render_template("all-books.html",books=books,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+    else:
+        return render_template("all-books.html",books=books,loggedin=False)
+
 @app.route("/book-detail/<int:id>")
 def book_detail(id):
     conn = mysql.connect()
@@ -457,7 +474,7 @@ def deliver_order(id):
         return "Please Login First!"
 
 @app.route("/rate-order/<int:id>", methods=['GET','POST'])
-def rate_order(id):
+def rate_order(id):    
     if 'loggedin' in session: 
         if session['type'] == 'user':
             rate = request.form.get("rate")

@@ -42,10 +42,10 @@
         </div>
         <div class="container filter-container">
             <div class="row" class="filter" style="display: block; text-align:center;">
-                <form action="">
+                <form action="/filter" method="get">
                     <div class="dropdown">
                         <!-- <label for="Category">Category</label> -->
-                        <select class="cat-all"  onclick="myFunction()" class="dropbtn">
+                        <select name="category" class="cat-all"  onclick="myFunction()" class="dropbtn">
                             <option class="sel-opt" value="all">All</option>
                             <option class="sel-opt" value="fiction">Fiction</option>
                             <option class="sel-opt" value="ccience">Science</option>
@@ -58,9 +58,9 @@
                             <option class="sel-opt" value="programming">Programming</option>
                             <option class="sel-opt" value="graphic">Graphic</option>
                         </select>
-                        <input class="cat-all" type="number" placeholder="Price Min">
-                        <input class="cat-all" type="number" placeholder="Price Max">
-                        <button class="cat-apply">Apply Filter</button>
+                        <input class="cat-all" name="price-min" type="number" placeholder="Price Min">
+                        <input class="cat-all" name="price-max" type="number" placeholder="Price Max">
+                        <button class="cat-apply" type="submit">Apply Filter</button>
                       </div>
                 </form>
             </div>
