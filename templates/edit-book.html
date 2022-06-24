@@ -1,0 +1,113 @@
+{% extends 'layout.html' %} 
+{% block title %}Edit Book{% endblock %} 
+
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .dangare{
+                background-color: red !important;
+                }
+        </style>
+
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    {% endblock %}
+    {% block content %}
+
+    <div class="form_wrapper">
+        <div class="form_container">
+            <div class="title_container">
+                <h2> EDIT DETAILS </h2>
+            </div>
+            <div class="row clearfix">
+                <div class="">
+                    <form action="/edit-book/{{book[0]}}" method="post" enctype="multipart/form-data">
+                        <p style="text-align: center;">Title</p>
+                        <div class="input_field">
+                            <input type="text" name="title" placeholder="Book title" value="{{book[1]}}" required />
+                        </div>
+                        <!-- <div class="input_field">
+                            <input type="text" name="name" placeholder="Book Name" required />
+                        </div> -->
+                        <p style="text-align: center;">Description</p>
+                        <div class="input_field">
+                            <input type="text" name="description" placeholder="Description"  value="{{book[8]}}" required ></input>
+                        </div>
+                        <p style="text-align: center;">Author</p>
+                        <div class="input_field">
+                            <input type="text" name="author" placeholder="Author "  value="{{book[2]}}" required />
+                        </div>
+                        <p style="text-align: center;">Publisher</p>
+                        <div class="input_field">
+                            <input type="text" name="publisher" placeholder="Publisher "  value="{{book[11]}}" required />
+                        </div>
+                        <p style="text-align: center;">ISBN #</p>
+                        <div class="input_field">
+                            <input type="text" name="isbn" placeholder="ISBN # "  value="{{book[12]}}" required />
+                        </div>
+                        <p style="text-align: center;">Phone #</p>
+                        <div class="input_field">
+                            <input type="text" name="phone" placeholder="Phone # "  value="{{book[13]}}" required />
+                        </div>
+                        <p style="text-align: center;">Shop address</p>
+                        <div class="input_field">
+                            <input type="text" name="address" placeholder="Shop address "  value="{{book[14]}}" required />
+                        </div>
+                        <p style="text-align: center;">Category</p>
+                        <div class="input_field">
+                            <!-- <input type="text" name="category" placeholder="Category " required /> -->
+                            <select name="category">
+                                <option value="" disabled selected>Category</option>
+                                <option value="fiction">Fiction</option>
+                                <option value="science">Science</option>
+                                <option value="comics">Comics</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="math">Math</option>
+                                <option value="urdu">Urdu</option>
+                                <option value="islamic">Islamic</option>
+                                <option value="tourism">Tourism</option>
+                                <option value="programming">Programming</option>
+                                <option value="graphic-design">Graphic Design</option>
+                            </select>
+                        </div>
+                        <div class="input_field">
+                            <input type="number" step="any" min="1" name="price" placeholder="Price "  value="{{book[5]}}" required />
+                            Price
+                        </div>
+                        <div class="input_field">
+                            <input type="number" step="any" min="0" name="discount" placeholder="Discount in % "  value="{{book[15]}}" required />
+                            Discount in %
+                        </div>
+                        <div class="input_field">
+                            <input type="number" value="1" name="quantity" placeholder="Quantity "  value="{{book[6]}}" required />
+                            Quantity
+                        </div>
+                        <div class="input_field">
+                            Upload Image <input type="file" name="image" placeholder="Images " />
+                        </div>
+
+
+
+                        <input class="button" type="submit" value="Update" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    {% block scripts %}
+    <script>
+        /* Code by CodingTuting.Com */
+        function footerToggle(footerBtn) {
+            Rs - (footerBtn).toggleClass("btnActive");
+            Rs - (footerBtn).next().toggleClass("active");
+        }
+    </script>
+    {% endblock %}

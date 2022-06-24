@@ -5,8 +5,10 @@ from os.path import join, dirname, realpath
 from werkzeug.utils import secure_filename
 from PIL import Image
 from flask_mail import Mail, Message
+from pymysql.cursors import DictCursor
 
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
@@ -17,6 +19,14 @@ app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 # app.config['MYSQL_DATABASE_DB'] = 'novel-fyp'
 # app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 mysql.init_app(app)
+
+
+mysql2 = MySQL(cursorclass=DictCursor)
+app.config['MYSQL2_DATABASE_USER'] = 'root'
+app.config['MYSQL2_DATABASE_PASSWORD'] = ''
+app.config['MYSQL2_DATABASE_DB'] = 'book_kingdom'
+app.config['MYSQL2_DATABASE_HOST'] = '127.0.0.1'
+mysql2.init_app(app)
 
 
 # Mail server config.
@@ -217,6 +227,59 @@ def add_book():
     else:
         return "Please Login First as a shop keeper!"
 
+@app.route("/edit-book/<string:id>", methods=['GET','POST'])
+def edit_book(id):
+    if 'loggedin' in session: 
+        if session['type'] == 'shopkeeper':
+            if request.method == 'POST':
+                title = request.form.get("title")
+                author = request.form.get("author")
+                publisher = request.form.get("publisher")
+                isbn = request.form.get("isbn")
+                description = request.form.get("description")
+                category = request.form.get("category")
+                price = float(request.form.get("price"))
+                quantity = request.form.get("quantity")
+                phone = request.form.get("phone")
+                address = request.form.get("address")
+                discount = request.form.get("discount")
+                added_by = session['name']
+                publisher_id =session['userid']
+                image = request.files["image"]
+                rating = None
+                if image:
+                    if allowed_file(image.filename):
+                        filename = secure_filename(image.filename)
+                        image.save(
+                            os.path.join(BOOK_IMAGES, filename))
+                        # compress image
+                        newimage = Image.open(os.path.join(BOOK_IMAGES, str(filename)))
+                        newimage.thumbnail((400, 400))
+                        newimage.save(os.path.join(BOOK_IMAGES, str(filename)), quality=95)
+                        conn = mysql.connect()
+                        cursor =conn.cursor()
+                        cursor.execute("UPDATE books SET title=%s,author=%s,added_by=%s,publisher_id=%s,category=%s,price=%s,quantity=%s,image=%s,description=%s,rating=%s,publisher=%s,isbn=%s,phone=%s,address=%s,discount=%s WHERE id=%s",(title,author,added_by,publisher_id,category,price,quantity,filename,description,rating,publisher,isbn,phone,address,discount,id))
+                        conn.commit()
+                    else:
+                        return "File incorrect format"
+                else:
+                    conn = mysql.connect()
+                    cursor =conn.cursor()
+                    cursor.execute("UPDATE books SET title=%s,author=%s,added_by=%s,publisher_id=%s,category=%s,price=%s,quantity=%s,description=%s,rating=%s,publisher=%s,isbn=%s,phone=%s,address=%s,discount=%s WHERE id=%s;",(title,author,added_by,publisher_id,category,price,quantity,description,rating,publisher,isbn,phone,address,discount,id))
+                    conn.commit()
+                return redirect(url_for('my_books'))
+                
+            else:
+                conn = mysql.connect()
+                cursor =conn.cursor()
+                cursor.execute("SELECT * from books where id=%s",(id))
+                book = cursor.fetchone()
+                return render_template("edit-book.html",book=book,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+        else:
+            return "ShopKeeper Account Not Found!"
+    else:
+        return "Please Login First as a shop keeper!"
+
 @app.route("/login", methods=['GET','POST'])
 def login():
     if request.method == 'POST':
@@ -348,13 +411,14 @@ def cart(product_ids):
                 book_id = book[0]
                 publisher_id = book[10]
                 price = book[5]
+                bookQty = book[6]
+                bookQty = bookQty - 1
                 if delivery_method == "delivery":
                     price = price+200
-                    cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
-                    conn.commit()
-                else:
-                    cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
-                    conn.commit()
+                cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
+                conn.commit()
+                cursor.execute("UPDATE books SET quantity=%s where id=%s",(bookQty,book_id))
+                conn.commit()
             return redirect(url_for("order_placed"))
         else:
             products = []
@@ -398,11 +462,13 @@ def cart(product_ids):
                 book_id = book[0]
                 publisher_id = book[10]
                 price = book[5]
+                bookQty = book[6]
+                bookQty = bookQty-1
                 if delivery_method == "delivery":
                     price = price+200
-                    cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
-                    conn.commit()
                 cursor.execute("INSERT INTO orders (user_id, book_id,publisher_id,total_price,status,city,delivery_address,name,email,phone,del_ins,del_method) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s,%s);",(user_id,book_id,publisher_id,price,"pending",city,address,name,email,phone,del_ins,delivery_method))
+                conn.commit()
+                cursor.execute("UPDATE books SET quantity=%s where id=%s",(bookQty,book_id))
                 conn.commit()
             return redirect(url_for("order_placed"))
         else:
@@ -716,7 +782,7 @@ def register_api():
                 type = "user"
                 if not email or not password  or not first_name or not last_name or not gender:
                     return jsonify({"success":False,"error":"Oops! Something is missing"})
-                conn = mysql.connect()
+                conn = mysql2.connect()
                 cursor =conn.cursor()
                 cursor.execute("SELECT * from users where email=%s",(email))
                 exist = cursor.fetchone()
@@ -745,7 +811,7 @@ def login_api():
                 password = data["password"]
                 if not email or not password:
                     return jsonify({"success":False,"error":"Oops! Something is missing!"})
-                conn = mysql.connect()
+                conn = mysql2.connect()
                 cursor =conn.cursor()
                 cursor.execute("SELECT * from users where email=%s",(email))
                 account = cursor.fetchone()
@@ -766,7 +832,7 @@ def login_api():
 @app.route("/get-all-books-api")
 def get_all_books_api():
     try:
-        conn = mysql.connect()
+        conn = mysql2.connect()
         cursor =conn.cursor()
         cursor.execute("SELECT * from books")
         books = cursor.fetchall()
@@ -778,7 +844,7 @@ def get_all_books_api():
 @app.route("/get-books-by-category-api/<string:category>")
 def get_books_by_category_api(category):
     try:
-        conn = mysql.connect()
+        conn = mysql2.connect()
         cursor =conn.cursor()
         cursor.execute("SELECT * from books where category=%s",category)
         books = cursor.fetchall()
@@ -793,7 +859,7 @@ def search_api():
         if request.is_json:            
             data = request.get_json()
             q = data["keyword"]
-            conn = mysql.connect()
+            conn = mysql2.connect()
             cursor =conn.cursor()
             cursor.execute("SELECT * FROM books WHERE title Like '%{text:}%';".format(text=q))
             books = cursor.fetchall()
@@ -816,7 +882,7 @@ def search_api():
 @app.route("/single-book-detail-api/<int:id>")
 def single_book_detail_api(id):
     try:
-        conn = mysql.connect()
+        conn = mysql2.connect()
         cursor =conn.cursor()
         cursor.execute("SELECT * from books where id=%s",id)
         book = cursor.fetchone()

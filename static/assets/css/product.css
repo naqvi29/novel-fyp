@@ -345,8 +345,8 @@ body{
     
 
       .product {
-        width: 124px;
-        height: 183px;
+        /* width: 124px;
+        height: 183px; */
         font-size: 10px;
         font-family: 'Arial';
         margin-bottom: 8px;

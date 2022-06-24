@@ -373,6 +373,9 @@
   .searchButton{
     display: None;
   }
+  .search{
+    display: none;
+  }
 }
 .filter-container{
   margin-top: 1.5rem;
@@ -395,12 +398,12 @@
     padding-left: 0rem;
     padding-right: 0rem;
     border-radius: 10%;
-    color: black;
-    background-color: white;
+    color: white;
+    background-color: darkcyan;
     padding-top: 0rem;
     padding-bottom: 0rem;
     margin-right: 0.5rem;
-    max-width: 16%;
+    /* max-width: 16%; */
     min-width: 16%;
 }
 .cat-all::placeholder{
