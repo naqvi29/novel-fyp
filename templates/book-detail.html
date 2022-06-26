@@ -26,6 +26,11 @@
   <link rel="stylesheet" href="/static/assets/css/css/style.scss">
   <link rel="stylesheet" href="/static/assets/css/3_pages.css">
   <link rel="stylesheet" href="/static/assets/css/book-detail.css">
+  <style>
+    footer{
+      font-size: 0.9rem;
+    }
+  </style>
   
   {% endblock %}
   {% block content %}
@@ -100,8 +105,8 @@
             {% endif %}
         </header>
         <article>
-          <h5>Description</h5>
-          <p>{{book[8][:2000]}}</p>
+          <h5 class="colorCat">Description</h5>
+          <p style="color:black;">{{book[8][:2000]}}</p>
         </article>
         <div class="controls">
 
@@ -215,8 +220,10 @@
       console.log(discount);
       discount = parseFloat(discount)
       full_price = parseFloat(full_price)
-      percent = full_price / discount;
-      cut_price = full_price + percent;
+      percent = discount/100 * full_price ;
+      console.log(percent)
+      percent =percent*2
+      cut_price = full_price + percent ;
       console.log("cutprice"); 
       console.log(cut_price); 
       document.getElementById("discount").innerHTML = cut_price;

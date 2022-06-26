@@ -44,7 +44,7 @@ body{
 
 
 .products_slid .col-sm-4 {
-  width: 33%;
+  /* width: 33%; */
   text-align: center;
 }
 
@@ -823,7 +823,7 @@ button {
 
 
 form {
-    margin: 2em auto 2em auto
+    /* margin: 2em auto 2em auto */
 }
 
 .input {
@@ -1773,3 +1773,10 @@ table th {
     top: 122px;
 }
 } */
+
+.input_btn {
+  background-color: #000;
+  color: #fff;
+  padding: 4px;
+  margin: 4px;
+}

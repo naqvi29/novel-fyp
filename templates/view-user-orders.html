@@ -76,8 +76,8 @@
   
   </div>
     <!-- Rate Modal end -->
-    <section class="headaer_1">
-        <div class="container" style="    background-color: white;
+    <section class="headaer_1" style="font-size: 0.8rem;">
+        <div class="container-fluid" style="    background-color: white;
         border-radius: 2%;
         min-width: fit-content;">
             <div class="header_tex1">
@@ -89,6 +89,7 @@
                     <tr>
                       <th>OrderID</th>
                       <th>BookID</th>
+                      <th>BookName</th>
                       <th>Price</th>
                       <th>City</th>
                       <th>Delivery Address</th>
@@ -107,6 +108,7 @@
                     <tr>
                       <td>{{i[0]}}</td>
                       <td>{{i[2]}}</td>
+                      <td>{{i[14]|truncate(25, True, '...')}}</td>
                       <td>{{i[4]}}</td>
                       <td>{{i[8]}}</td>
                       <td>{{i[7]}}</td>
@@ -139,6 +141,7 @@
                     <tr>
                       <th>OrderID</th>
                       <th>BookID</th>
+                      <th>BookName</th>
                       <th>Price</th>
                       <th>City</th>
                       <th>Delivery Address</th>
@@ -156,6 +159,7 @@
                     <tr>
                       <td>{{i[0]}}</td>
                       <td>{{i[2]}}</td>
+                      <td>{{i[14]|truncate(25, True, '...')}}</td>
                       <td>{{i[4]}}</td>
                       <td>{{i[8]}}</td>
                       <td>{{i[7]}}</td>

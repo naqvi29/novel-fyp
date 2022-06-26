@@ -238,7 +238,7 @@ body{
   }
   .cont {
     display: inline-block;
-    margin: 24px;
+    /* margin: 24px; */
     text-align: center;
   }
   .cont span.add-to-cart,

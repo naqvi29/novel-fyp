@@ -501,7 +501,23 @@ def view_user_orders(userid):
             pending_orders = cursor.fetchall()
             cursor.execute("SELECT * from orders where user_id=%s and status='delivered'",(userid))
             delivered_orders = cursor.fetchall()
-            return render_template("view-user-orders.html",pending_orders=pending_orders,delivered_orders=delivered_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+            pendingorders2 = []
+            for i in pending_orders:
+                bookid = i[2]
+                cursor.execute("SELECT title from books where id=%s",(bookid))
+                booktitle = cursor.fetchone()
+                i = list(i)
+                i.append(booktitle[0])
+                pendingorders2.append(i)
+            delivered_orders2 = []
+            for i in delivered_orders:
+                bookid = i[2]
+                cursor.execute("SELECT title from books where id=%s",(bookid))
+                booktitle = cursor.fetchone()
+                i = list(i)
+                i.append(booktitle[0])
+                delivered_orders2.append(i)
+            return render_template("view-user-orders.html",pending_orders=pendingorders2,delivered_orders=delivered_orders2,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
         else:
             return "Please Login First as user account!"
     else:
@@ -519,7 +535,31 @@ def view_shopkeepers_orders(userid):
             delivered_orders = cursor.fetchall()
             cursor.execute("SELECT * from orders where status='pending' and user_id=%s",(userid))
             my_orders = cursor.fetchall()
-            return render_template("view-shopkeeper-orders.html",pending_orders=pending_orders,delivered_orders=delivered_orders,my_orders=my_orders,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
+            pendingorders2 = []
+            for i in pending_orders:
+                bookid = i[2]
+                cursor.execute("SELECT title from books where id=%s",(bookid))
+                booktitle = cursor.fetchone()
+                i = list(i)
+                i.append(booktitle[0])
+                pendingorders2.append(i)
+            delivered_orders2 = []
+            for i in delivered_orders:
+                bookid = i[2]
+                cursor.execute("SELECT title from books where id=%s",(bookid))
+                booktitle = cursor.fetchone()
+                i = list(i)
+                i.append(booktitle[0])
+                delivered_orders2.append(i)
+            my_orders2 = []
+            for i in my_orders:
+                bookid = i[2]
+                cursor.execute("SELECT title from books where id=%s",(bookid))
+                booktitle = cursor.fetchone()
+                i = list(i)
+                i.append(booktitle[0])
+                my_orders2.append(i)
+            return render_template("view-shopkeeper-orders.html",pending_orders=pendingorders2,delivered_orders=delivered_orders2,my_orders=my_orders2,loggedin=True,username=session['name'],userid=session['userid'],type=session['type'])
         else:
             return "Please Login First as shopkeeper account!"
     else:
@@ -756,7 +796,7 @@ def profile():
             cursor =conn.cursor()
             cursor.execute("UPDATE users SET first_name=%s,last_name=%s,email=%s,password=%s ,gender=%s WHERE userid=%s",(f_name,l_name,email,password,gender,session['userid']))
             conn.commit()
-            return redirect(url_for("profile"))
+            return redirect(url_for("index"))
         conn = mysql.connect()
         cursor =conn.cursor()
         cursor.execute("SELECT * from users where userid=%s",session['userid'])
