@@ -1,129 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {% block head %}{% endblock %}
 
-    <title>{% block title %}{% endblock %}</title>
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="/static/assets/favicons/android-chrome-512x512.png"
-    />
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="/static/assets/favicons/apple-touch-icon.png"
-    />
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<head>
+  {% block head %}{% endblock %}
 
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="icon" type="image/x-icon" href="/static/assets/favicons/android-chrome-512x512.png" />
+  <link rel="icon" type="image/x-icon" href="/static/assets/favicons/apple-touch-icon.png" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-      body {
-        margin: 0px;
-        font-family: "segoe ui";
-      }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-      .nav {
-        padding-top: 1.2rem;
-    /* margin-top: 12px; */
-    /* height: 50px; */
-    width: 100%;
-    position: relative;
-}
-      .nav > .nav-header {
-        display: inline;
-      }
+    body {
+      margin: 0px;
+      font-family: "segoe ui";
+    }
 
-      .nav > .nav-header > .nav-title {
+    .nav {
+      padding-top: 1.2rem;
+      /* margin-top: 12px; */
+      /* height: 50px; */
+      width: 100%;
+      position: relative;
+    }
+
+    .nav>.nav-header {
+      display: inline;
+    }
+
+    .nav>.nav-header>.nav-title {
+      display: inline-block;
+      font-size: 22px;
+      color: #fff;
+      padding: 10px 10px 10px 10px;
+    }
+
+    .nav>.nav-btn {
+      display: none;
+    }
+
+    .nav>.nav-links {
+      /* display: inline; */
+      float: right;
+      font-size: 18px;
+    }
+
+    .nav>.nav-links>a {
+      display: inline-block;
+      padding: 13px 10px 13px 10px;
+      text-decoration: none;
+      color: #efefef;
+    }
+
+    .nav>.nav-links>a:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .nav>#nav-check {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .nav>.nav-btn {
         display: inline-block;
-        font-size: 22px;
-        color: #fff;
-        padding: 10px 10px 10px 10px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
       }
 
-      .nav > .nav-btn {
-        display: none;
-      }
-
-      .nav > .nav-links {
-        /* display: inline; */
-        float: right;
-        font-size: 18px;
-      }
-
-      .nav > .nav-links > a {
+      .nav>.nav-btn>label {
         display: inline-block;
-        padding: 13px 10px 13px 10px;
-        text-decoration: none;
-        color: #efefef;
+        width: 50px;
+        height: 50px;
+        padding: 13px;
       }
 
-      .nav > .nav-links > a:hover {
+      .nav>.nav-btn>label:hover,
+      .nav #nav-check:checked~.nav-btn>label {
         background-color: rgba(0, 0, 0, 0.3);
       }
 
-      .nav > #nav-check {
-        display: none;
+      .nav>.nav-btn>label>span {
+        display: block;
+        width: 25px;
+        height: 10px;
+        border-top: 2px solid rgb(0, 0, 0) !important;
       }
 
-      @media (max-width: 600px) {
-        .nav > .nav-btn {
-          display: inline-block;
-          position: absolute;
-          right: 0px;
-          top: 0px;
-        }
-        .nav > .nav-btn > label {
-          display: inline-block;
-          width: 50px;
-          height: 50px;
-          padding: 13px;
-        }
-        .nav > .nav-btn > label:hover,
-        .nav #nav-check:checked ~ .nav-btn > label {
-          background-color: rgba(0, 0, 0, 0.3);
-        }
-        .nav > .nav-btn > label > span {
-          display: block;
-          width: 25px;
-          height: 10px;
-          border-top: 2px solid rgb(0, 0, 0) !important;
-        }
-        .nav > .nav-links {
-          position: absolute;
-          display: block;
-          width: 100%;
-          background-color: #333;
-          height: 0px;
-          transition: all 0.3s ease-in;
-          overflow-y: hidden;
-          top: 50px;
-          left: 0px;
-        }
-        .nav > .nav-links > a {
-          display: block;
-          width: 100%;
-        }
-        .nav > #nav-check:not(:checked) ~ .nav-links {
-          height: 0px;
-        }
-        .nav > #nav-check:checked ~ .nav-links {
-          height: calc(100vh - 50px);
-          overflow-y: auto;
-        }
-        .nav-links {
-          z-index: 999;
-        }
+      .nav>.nav-links {
+        position: absolute;
+        display: block;
+        width: 100%;
+        background-color: #333;
+        height: 0px;
+        transition: all 0.3s ease-in;
+        overflow-y: hidden;
+        top: 50px;
+        left: 0px;
       }
-    </style>
-  </head>
 
-  <body>
-    <section class="header_nav">
-      <!-- <nav class="navbar">
+      .nav>.nav-links>a {
+        display: block;
+        width: 100%;
+      }
+
+      .nav>#nav-check:not(:checked)~.nav-links {
+        height: 0px;
+      }
+
+      .nav>#nav-check:checked~.nav-links {
+        height: calc(100vh - 50px);
+        overflow-y: auto;
+      }
+
+      .nav-links {
+        z-index: 999;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="header_nav">
+    <!-- <nav class="navbar">
             <div class="navbar-container container">
                 <input type="checkbox" name="" id="">
                 <div class="hamburger-lines">
@@ -188,10 +190,9 @@
                 </ul>
             </div>
         </nav> -->
-      <!-- </div>
+    <!-- </div>
         </div> -->
-        <div class="container">
-
+    <div class="container">
       <div class="nav">
         <input type="checkbox" id="nav-check" />
         <div class="nav-header">
@@ -226,7 +227,9 @@
             </div>
           </li>
           {% if loggedin %} {% if type =='user' %}
-          <li><a class="btn" href="/view-user-orders/{{userid}}">Orders</a></li>
+          <li>
+            <a class="btn" href="/view-user-orders/{{userid}}">Orders</a>
+          </li>
           {% elif type=='shopkeeper' %}
           <li>
             <a class="btn" href="/view-shopkeeper-orders/{{userid}}">Orders</a>
@@ -252,73 +255,63 @@
           {% endif %}
         </ul>
       </div>
-      </div>
-    </section>
-    {% block content %}{% endblock %}
+    </div>
+  </section>
+  {% block content %}{% endblock %}
 
-    <footer>
-      <div class="row">
-        <div class="col-3">
-          <div class="nav-header">
-            <a href="/" class="logo_foot">
-              <img style="
-              vertical-align: text-top;" src="/static/assets/images/white-logo.png" alt="" />
+  <footer>
+    <div class="row">
+      <div class="col-3">
+        <div class="nav-header">
+          <a href="/" class="logo_foot">
+            <img style="vertical-align: text-top" src="/static/assets/images/white-logo.png" alt="" />
+          </a>
+        </div>
+      </div>
+      <div class="col-1"></div>
+
+      <div class="col-3">
+        <span>Stay Connected</span>
+        <form action="#">
+          <input type="email" id="subscriber-email" placeholder="Enter Email Address" />
+          <input onclick="subscribe()" class="input_btn" type="submit" value="Subscribe" id="btn-scribe" />
+        </form>
+      </div>
+
+      <div class="col-1"></div>
+
+      <div class="col-3" id="newsletter">
+        <div id="address">
+          <span>Office Location</span>
+          <ul>
+            <a target="_blank" href="https://goo.gl/maps/qpfNE6xzmKfo71u19">
+              <li>
+                <i class="fa-solid fa-location-dot"></i>
+                <div>
+                  Iqra University<br />
+                  EDC main campus
+                </div>
+              </li>
             </a>
-          </div>
-        </div>
-        <div class="col-1"></div>
-
-        <div class="col-3">
-          <span>Stay Connected</span>
-          <form action="#">
-            <input
-              type="email"
-              id="subscriber-email"
-              placeholder="Enter Email Address"
-            />
-            <input
-              onclick="subscribe()"
-              class="input_btn"
-              type="submit"
-              value="Subscribe"
-              id="btn-scribe"
-            />
-          </form>
-        </div>
-
-        <div class="col-1"></div>
-
-        <div class="col-3" id="newsletter">
-          <div id="address">
-            <span>Office Location</span>
-            <ul>
-              <a target="_blank" href="https://goo.gl/maps/qpfNE6xzmKfo71u19"
-                ><li>
-                  <i class="fa-solid fa-location-dot"></i>
-                  <div>
-                    Iqra University<br />
-                    EDC main campus
-                  </div>
-                </li></a
-              >
-            </ul>
-          </div>
+          </ul>
         </div>
       </div>
-      <div id="copyright">
-        &copy; All Rights Reserved 2021-2022
-        <div id="owner">
-          <span> Designed by Bookkingdom.Com </span>
-        </div>
+    </div>
+    <div id="copyright">
+      &copy; All Rights Reserved 2021-2022
+      <div id="owner">
+        <span> Designed by Bookkingdom.Com </span>
       </div>
-    </footer>
+    </div>
+  </footer>
 
-    {% block scripts %}{% endblock %}
-  </body>
+  {% block scripts %}{% endblock %}
+</body>
 
-  <script>
-    function subscribe() {
-      swal("Subscribed!", "", "success");
-    }
-  </script>
+<script>
+  function subscribe() {
+    swal("Subscribed!", "", "success");
+  }
+</script>
+
 </html>

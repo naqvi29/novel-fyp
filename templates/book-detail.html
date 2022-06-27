@@ -54,6 +54,11 @@
           <div class="colorCat">Phone#:<span style="color: red;">{{book[13]}}</span></div>
           <div class="colorCat">Address: <span style="color: red;">{{book[14]}}</span></div>
           <div class="colorCat">Discount: <span style="color: red;" id="disc">{{book[15]}}%</span></div>
+          <div class="colorCat">Availability: 
+            <span style="color: red;" id="disc">
+              {% if book[16] =="out" %}
+            Out Of Stock
+          {% else %} In Stock{% endif %}</span></div>
           <div class="price">
             <!-- <span class="before">$150</span> -->
             <span class="current">Rs- <span id="fullprice" class="current">{{book[5]}}</span></span> {% if book[15] %}<span class="current2">Rs- <span id="discount"></span></span>{% endif %}
@@ -117,10 +122,14 @@
           </div>
         </div>
         <div class="footer">
+          {% if book[16] =="out" %}
+          Out Of Stock
+          {% else %}
           <button class=" btn js-cd-add-to-cart" type="button" data-id="{{book[0]}}" data-price="{{book[5]}}" data-title="{{book[1]}}" data-img="{{book[7]}}">
             <img src="http://co0kie.github.io/codepen/nike-product-page/cart.png" alt="">
             <span>add to cart</span>
           </button>
+          {% endif %}
         </div>
       </div>
 

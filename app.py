@@ -195,6 +195,7 @@ def add_book():
                 isbn = request.form.get("isbn")
                 description = request.form.get("description")
                 category = request.form.get("category")
+                availability = request.form.get("availability")
                 price = float(request.form.get("price"))
                 quantity = request.form.get("quantity")
                 phone = request.form.get("phone")
@@ -214,7 +215,7 @@ def add_book():
                     newimage.save(os.path.join(BOOK_IMAGES, str(filename)), quality=95)
                     conn = mysql.connect()
                     cursor =conn.cursor()
-                    cursor.execute("INSERT INTO books (title, author, added_by,publisher_id,category,price,quantity,image,description,rating,publisher,isbn,phone,address,discount) VALUES (%s, %s,%s, %s,%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s);",(title,author,added_by,publisher_id,category,price,quantity,filename,description,rating,publisher,isbn,phone,address,discount))
+                    cursor.execute("INSERT INTO books (title, author, added_by,publisher_id,category,price,quantity,image,description,rating,publisher,isbn,phone,address,discount,availability) VALUES (%s, %s,%s,%s, %s,%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s);",(title,author,added_by,publisher_id,category,price,quantity,filename,description,rating,publisher,isbn,phone,address,discount,availability))
                     conn.commit()
                     return redirect(url_for('index'))
                 else:
@@ -677,7 +678,15 @@ def orders():
             cursor =conn.cursor()
             cursor.execute("SELECT * from orders")
             orders = cursor.fetchall()
-            return render_template("orders.html",loggedin=True,orders=orders,username=session['name'],userid=session['userid'],type=session['type'])
+            orders2 = []
+            for i in orders:
+                bookid = i[2]
+                cursor.execute("SELECT title from books where id=%s",(bookid))
+                booktitle = cursor.fetchone()
+                i = list(i)
+                i.append(booktitle[0])
+                orders2.append(i)
+            return render_template("orders.html",loggedin=True,orders=orders2,username=session['name'],userid=session['userid'],type=session['type'])
         else:
             return "Admin Account Not Found!"
     else:
